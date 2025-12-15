@@ -1,1 +1,4 @@
 .env
+.tool-versions
+venv
+.venv
