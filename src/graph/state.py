@@ -20,4 +20,4 @@ class GenIAState(TypedDict):
     script_robot: Optional[str]
     test_case_name: Optional[str]
     output_directory: Optional[str]
-    attempt_number: Optional[int]
+    # attempt_number: Optional[int]

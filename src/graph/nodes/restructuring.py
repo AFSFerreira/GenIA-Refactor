@@ -49,6 +49,7 @@ def restructuring_node(state: GenIAState) -> GenIAState:
     )
     
     test_plan = completion.choices[0].message.parsed
+    
     state["test_plan"] = test_plan
     state["execution_status"] = "extracting"
     state["current_module_index"] = 0
