@@ -84,10 +84,8 @@ class BrowserTool:
         
         for result in results:
             if result.success:
-                # Extracted data
                 result_data["extracted_content"] = json.loads(result.extracted_content)
                 
-                # Tokens used
                 usage = llm_strategy.total_usage
                 result_data["token_usage"] = {
                     "completion_tokens": usage.completion_tokens,
@@ -97,7 +95,6 @@ class BrowserTool:
                     "prompt_tokens_details": usage.prompt_tokens_details
                 }
                 
-                # Dispatcher data
                 start_time = datetime.fromtimestamp(result.dispatch_result.start_time)
                 end_time = datetime.fromtimestamp(result.dispatch_result.end_time)
                 result_data["dispatcher_data"] = {

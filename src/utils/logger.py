@@ -20,17 +20,14 @@ def setup_logger(name: str = "GenIA-E2ETest", level: int = logging.INFO) -> logg
     """
     logger = logging.getLogger(name)
     
-    # Avoid adding duplicate handlers
     if logger.handlers:
         return logger
     
     logger.setLevel(level)
     
-    # Console handler
     console_handler = logging.StreamHandler(sys.stdout)
     console_handler.setLevel(level)
     
-    # Log format
     formatter = logging.Formatter(
         '%(asctime)s - %(name)s - %(levelname)s - %(message)s',
         datefmt='%Y-%m-%d %H:%M:%S'
@@ -39,7 +36,6 @@ def setup_logger(name: str = "GenIA-E2ETest", level: int = logging.INFO) -> logg
     
     logger.addHandler(console_handler)
     
-    # File handler (optional)
     logs_dir = Path('logs')
     logs_dir.mkdir(exist_ok=True)
     

@@ -24,19 +24,15 @@ def create_workflow() -> StateGraph:
     Returns:
         Configured StateGraph
     """
-    # Create the graph
     workflow = StateGraph(GenIAState)
     
-    # Add nodes
     workflow.add_node("restructuring", restructuring_node)
     workflow.add_node("extraction", extraction_node)
     workflow.add_node("refinement", refinement_node)
     workflow.add_node("generation", generation_node)
     
-    # Set entry point
     workflow.set_entry_point("restructuring")
     
-    # Add conditional edges
     workflow.add_conditional_edges(
         "restructuring",
         route_after_restructuring,

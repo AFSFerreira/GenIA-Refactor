@@ -64,8 +64,6 @@ def route_after_refinement(state: GenIAState) -> str:
     Returns:
         Name of the next node
     """
-    
-    # Check if there are still modules to process
     if state["current_module_index"] < len(state["test_plan"].modules):
         return "extraction"
     else:

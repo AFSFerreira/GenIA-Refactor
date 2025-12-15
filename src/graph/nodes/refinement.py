@@ -48,7 +48,6 @@ async def refinement_node(state: GenIAState) -> GenIAState:
             temperature=0.0
         )
     
-    # Update module with refined data
     module_dict["extracted_data"] = result["extracted_content"]
     if "token" in module_dict:
         for key in result["token_usage"]:

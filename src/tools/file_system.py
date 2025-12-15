@@ -95,7 +95,6 @@ def map_extracted_data_to_steps(module: Dict[str, Any]) -> Dict[str, Any]:
         if matched_data:
             step["extracted_data"] = matched_data
 
-    # Remove extracted_data from module level if everything was mapped
     if len(matched_indices) == len(extracted_items):
         module.pop("extracted_data", None)
 

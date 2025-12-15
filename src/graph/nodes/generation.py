@@ -23,20 +23,16 @@ def generation_node(state: GenIAState) -> GenIAState:
     """
     logger.info("Starting Robot Framework script generation...")
     
-    # Load Jinja2 template
     templates_dir = Path(__file__).parent.parent.parent / "prompts"
     env = Environment(loader=FileSystemLoader(templates_dir))
     template = env.get_template("level3_generation.jinja2")
     
-    # Convert test_plan to dict
     test_case_dict = state["test_plan"].model_dump()
     
-    # Render prompt
     prompt = template.render(
         test_case_with_extracted_data=json.dumps(test_case_dict, indent=2)
     )
     
-    # Generate script using OpenAI
     client = get_openai_client()
     response = client.chat.completions.create(
         model="gpt-4o-mini",
@@ -52,14 +48,11 @@ def generation_node(state: GenIAState) -> GenIAState:
         ]
     )
     
-    # Extract generated script
     robot_script = response.choices[0].message.content
     
-    # Update state
     state["script_robot"] = robot_script
     state["execution_status"] = "finished"
     
-    # Add message to history
     state["messages"].append({
         "role": "assistant",
         "content": "Robot Framework script generated successfully",
