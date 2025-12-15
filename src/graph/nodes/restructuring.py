@@ -5,8 +5,7 @@ from src.graph.state import GenIAState
 from src.models import TestCaseModel
 from src.utils.config import get_openai_client
 from src.utils.logger import get_logger
-from jinja2 import Environment, FileSystemLoader
-from pathlib import Path
+from src.utils.prompt_utils import load_prompt
 
 logger = get_logger(__name__)
 
@@ -23,9 +22,7 @@ def restructuring_node(state: GenIAState) -> GenIAState:
     """
     logger.info("Starting test case restructuring...")
     
-    templates_dir = Path(__file__).parent.parent.parent / "prompts"
-    env = Environment(loader=FileSystemLoader(templates_dir))
-    template = env.get_template("level1_restructuring.jinja2")
+    template = load_prompt("level1_restructuring.jinja2")
     
     test_case_content = None
     for msg in state["messages"]:

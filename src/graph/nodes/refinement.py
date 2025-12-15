@@ -7,8 +7,7 @@ from src.tools.browser import BrowserTool
 from src.tools.file_system import map_extracted_data_to_steps
 from src.utils.config import get_api_key
 from src.utils.logger import get_logger
-from jinja2 import Environment, FileSystemLoader
-from pathlib import Path
+from src.utils.prompt_utils import load_prompt
 import json
 
 logger = get_logger(__name__)
@@ -32,9 +31,7 @@ async def refinement_node(state: GenIAState) -> GenIAState:
     
     logger.info(f"Refining module {module_idx + 1}/{len(test_plan.modules)}")
     
-    templates_dir = Path(__file__).parent.parent.parent / "prompts"
-    env = Environment(loader=FileSystemLoader(templates_dir))
-    template = env.get_template("level2_refinement.jinja2")
+    template = load_prompt("level2_refinement.jinja2")
     
     module_dict = current_module.model_dump()
     prompt = template.render(module_with_extracted_data=json.dumps(module_dict, indent=2))

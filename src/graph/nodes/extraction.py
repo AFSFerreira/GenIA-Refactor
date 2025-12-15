@@ -7,8 +7,7 @@ from src.tools.browser import BrowserTool
 from src.tools.file_system import map_extracted_data_to_steps
 from src.utils.config import get_api_key
 from src.utils.logger import get_logger
-from jinja2 import Environment, FileSystemLoader
-from pathlib import Path
+from src.utils.prompt_utils import load_prompt
 import json
 
 logger = get_logger(__name__)
@@ -36,9 +35,7 @@ async def extraction_node(state: GenIAState) -> GenIAState:
     current_module = test_plan.modules[module_idx]
     logger.info(f"Processing module {module_idx + 1}/{len(test_plan.modules)}: {current_module.url}")
     
-    templates_dir = Path(__file__).parent.parent.parent / "prompts"
-    env = Environment(loader=FileSystemLoader(templates_dir))
-    template = env.get_template("level2_extraction.jinja2")
+    template = load_prompt("level2_extraction.jinja2")
     
     module_dict = current_module.model_dump()
     prompt = template.render(module=json.dumps(module_dict, indent=2))
