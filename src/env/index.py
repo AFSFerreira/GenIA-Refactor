@@ -9,7 +9,7 @@ from openai.types import ChatModel
 # Get the project root directory (parent of src/)
 PROJECT_ROOT = Path(__file__).parent.parent.parent
 
-
+# TODO: Definir variáveis de ambiente de temperatura de LLM
 @dataclass
 class EnvironmentVariables:
   """Strongly-typed container for the environment variables this project needs."""

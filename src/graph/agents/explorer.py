@@ -1,9 +1,6 @@
 """
 Explorer Agent - Responsible for extracting HTML elements from web pages.
 """
-import asyncio
-import json
-from datetime import datetime
 from typing import Any, Dict, List
 
 from playwright._impl._errors import TargetClosedError

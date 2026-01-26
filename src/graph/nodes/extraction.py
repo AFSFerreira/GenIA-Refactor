@@ -93,6 +93,7 @@ async def extraction_node(state: GenIAState) -> GenIAState:
         content=f"Elements extracted from module {module_idx + 1}/{total_modules}: {current_module.url}",
         name="extraction",
     )
+    
     state["messages"].append(new_message)
     
     logger.info(f"Extraction completed for module {module_idx + 1}")

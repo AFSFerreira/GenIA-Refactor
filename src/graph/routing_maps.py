@@ -1,4 +1,4 @@
-from src.utils.enums import GenIANodeName, GenIAStateStatus
+from src.utils.enums import GenIANodeName
 
 
 restructuring_routes_map: dict[str, str] = {

@@ -26,6 +26,7 @@ def route_after_restructuring(state: GenIAState) -> str:
     if refined_test_case is None:
         raise ValueError("refined_test_case is required after restructuring")
     
+    # TODO: Exportar save pra _save:
     # Save refined test case
     test_case_name = state["test_case_name"]
     

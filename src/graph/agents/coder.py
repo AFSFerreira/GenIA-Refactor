@@ -41,7 +41,7 @@ def generate_robot_script(prompt: str) -> str:
             }
         ],
         n=1,
-        temperature=0.1,
+        temperature=0.0,
     )
     
     robot_script = response.choices[0].message.content

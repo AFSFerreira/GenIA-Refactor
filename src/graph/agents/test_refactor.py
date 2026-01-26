@@ -40,7 +40,7 @@ def generate_test_case_refactor(client: Client, prompt: str) -> TestCaseModel | 
             }
         ],
         response_format=TestCaseModel,
-        temperature=0.1,
+        temperature=0.0,
         n=1,
     )
     
