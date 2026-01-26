@@ -24,13 +24,7 @@
                             "type": "button",
                             "request_description": "Click on the 'Contact Us' button to navigate to the contact page.",
                             "identifier_type": "XPath",
-                            "identifier_tracking": "//a[contains(text(), 'Contact us')]"
-                        },
-                        {
-                            "type": "button",
-                            "request_description": "Click on the 'Contact Us' button to navigate to the contact page.",
-                            "identifier_type": "XPath",
-                            "identifier_tracking": "//*[@id='contact_us']"
+                            "identifier_tracking": "//a[contains(text(), 'Contact Us')]"
                         },
                         {
                             "type": "button",
@@ -40,26 +34,26 @@
                         },
                         {
                             "type": "button",
-                            "request_description": "Click on the 'Contact Us' button to navigate to the contact page.",
+                            "request_description": "Button to navigate to the Contact Us page",
                             "identifier_type": "XPath",
-                            "identifier_tracking": "//*[@id='contact_us']"
+                            "identifier_tracking": "//a[contains(text(), 'Contact Us')]"
                         }
                     ]
                 }
             ],
             "token": {
-                "completion_tokens": 307,
-                "prompt_tokens": 22185,
-                "total_tokens": 22492,
+                "completion_tokens": 238,
+                "prompt_tokens": 22139,
+                "total_tokens": 22377,
                 "completion_tokens_details": null,
                 "prompt_tokens_details": null
             },
             "dispatcher": {
-                "memory_usage_MB": 1.53125,
-                "peak_memory_MB": 1.53125,
-                "start_time": "2026-01-26T00:47:42.900491",
-                "end_time": "2026-01-26T00:47:49.440044",
-                "duration_seconds": 6.539553
+                "memory_usage_MB": 1.81640625,
+                "peak_memory_MB": 1.81640625,
+                "start_time": "2026-01-26T01:24:08.406483",
+                "end_time": "2026-01-26T01:24:12.809137",
+                "duration_seconds": 4.402654
             }
         },
         {
@@ -151,11 +145,11 @@
                     ]
                 },
                 {
-                    "step": "Click 'Home' button and verify that landed to home page successfully",
+                    "step": "Click 'Home' button",
                     "extracted_data": [
                         {
                             "type": "a",
-                            "request_description": "Home button to navigate back to the home page",
+                            "request_description": "Home button to navigate back to the homepage",
                             "identifier_type": "XPath",
                             "identifier_tracking": "//a[contains(@href, '/') and contains(text(), 'Home')]"
                         }
@@ -163,18 +157,18 @@
                 }
             ],
             "token": {
-                "completion_tokens": 687,
-                "prompt_tokens": 7259,
-                "total_tokens": 7946,
+                "completion_tokens": 678,
+                "prompt_tokens": 7264,
+                "total_tokens": 7942,
                 "completion_tokens_details": null,
                 "prompt_tokens_details": null
             },
             "dispatcher": {
-                "memory_usage_MB": 0.265625,
-                "peak_memory_MB": 0.265625,
-                "start_time": "2026-01-26T00:48:08.700233",
-                "end_time": "2026-01-26T00:48:24.495218",
-                "duration_seconds": 15.794985
+                "memory_usage_MB": 0.0,
+                "peak_memory_MB": 0.0,
+                "start_time": "2026-01-26T01:24:28.032567",
+                "end_time": "2026-01-26T01:24:41.863004",
+                "duration_seconds": 13.830437
             }
         },
         {
@@ -186,7 +180,7 @@
                     "extracted_data": [
                         {
                             "type": "link",
-                            "request_description": "Link to navigate back to the home page",
+                            "request_description": "Link to navigate back to the home page.",
                             "identifier_type": "XPath",
                             "identifier_tracking": "//*[@class='nav navbar-nav']/li[1]/a"
                         },
@@ -194,11 +188,11 @@
                             "type": "link",
                             "request_description": "Link to return to the home page after submitting the contact form.",
                             "identifier_type": "XPath",
-                            "identifier_tracking": "//*[@class='header-middle']//ul/li[1]/a"
+                            "identifier_tracking": "//a[contains(text(), 'Home')]"
                         },
                         {
                             "type": "link",
-                            "request_description": "Link to navigate back to the home page",
+                            "request_description": "Link to navigate back to the home page.",
                             "identifier_type": "XPath",
                             "identifier_tracking": "//*[@class='nav navbar-nav']/li[1]/a"
                         },
@@ -206,24 +200,24 @@
                             "type": "link",
                             "request_description": "Link to return to the home page after submitting the contact form.",
                             "identifier_type": "XPath",
-                            "identifier_tracking": "//*[@id='header']/div[2]/div/div/ul/li[1]/a"
+                            "identifier_tracking": "//a[contains(text(), 'Home')]"
                         }
                     ]
                 }
             ],
             "token": {
-                "completion_tokens": 322,
-                "prompt_tokens": 22175,
-                "total_tokens": 22497,
+                "completion_tokens": 304,
+                "prompt_tokens": 21967,
+                "total_tokens": 22271,
                 "completion_tokens_details": null,
                 "prompt_tokens_details": null
             },
             "dispatcher": {
-                "memory_usage_MB": 0.42578125,
-                "peak_memory_MB": 0.42578125,
-                "start_time": "2026-01-26T00:48:28.894915",
-                "end_time": "2026-01-26T00:48:34.300479",
-                "duration_seconds": 5.405564
+                "memory_usage_MB": 1.3671875,
+                "peak_memory_MB": 1.3671875,
+                "start_time": "2026-01-26T01:24:45.479684",
+                "end_time": "2026-01-26T01:24:50.020183",
+                "duration_seconds": 4.540499
             }
         }
     ]

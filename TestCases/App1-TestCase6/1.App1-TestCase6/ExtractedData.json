@@ -28,26 +28,26 @@
                         },
                         {
                             "type": "button",
-                            "request_description": "Click on the 'Contact Us' button to navigate to the contact page.",
+                            "request_description": "Button to navigate to the Contact Us page",
                             "identifier_type": "XPath",
-                            "identifier_tracking": "//*[@id='contact_us']"
+                            "identifier_tracking": "//a[contains(text(), 'Contact Us')]"
                         }
                     ]
                 }
             ],
             "token": {
-                "completion_tokens": 176,
-                "prompt_tokens": 20408,
-                "total_tokens": 20584,
+                "completion_tokens": 169,
+                "prompt_tokens": 21410,
+                "total_tokens": 21579,
                 "completion_tokens_details": null,
                 "prompt_tokens_details": null
             },
             "dispatcher": {
-                "memory_usage_MB": 90.8828125,
-                "peak_memory_MB": 90.8828125,
-                "start_time": "2026-01-26T00:47:34.680177",
-                "end_time": "2026-01-26T00:47:42.884923",
-                "duration_seconds": 8.204746
+                "memory_usage_MB": 90.75390625,
+                "peak_memory_MB": 90.75390625,
+                "start_time": "2026-01-26T01:24:02.677599",
+                "end_time": "2026-01-26T01:24:08.388241",
+                "duration_seconds": 5.710642
             }
         },
         {
@@ -139,11 +139,11 @@
                     ]
                 },
                 {
-                    "step": "Click 'Home' button and verify that landed to home page successfully",
+                    "step": "Click 'Home' button",
                     "extracted_data": [
                         {
                             "type": "a",
-                            "request_description": "Home button to navigate back to the home page",
+                            "request_description": "Home button to navigate back to the homepage",
                             "identifier_type": "XPath",
                             "identifier_tracking": "//a[contains(@href, '/') and contains(text(), 'Home')]"
                         }
@@ -151,18 +151,18 @@
                 }
             ],
             "token": {
-                "completion_tokens": 687,
-                "prompt_tokens": 8205,
-                "total_tokens": 8892,
+                "completion_tokens": 678,
+                "prompt_tokens": 6488,
+                "total_tokens": 7166,
                 "completion_tokens_details": null,
                 "prompt_tokens_details": null
             },
             "dispatcher": {
-                "memory_usage_MB": 0.2578125,
-                "peak_memory_MB": 0.2578125,
-                "start_time": "2026-01-26T00:47:49.453253",
-                "end_time": "2026-01-26T00:48:08.681563",
-                "duration_seconds": 19.22831
+                "memory_usage_MB": 0.00390625,
+                "peak_memory_MB": 0.00390625,
+                "start_time": "2026-01-26T01:24:12.826791",
+                "end_time": "2026-01-26T01:24:28.017224",
+                "duration_seconds": 15.190433
             }
         },
         {
@@ -174,7 +174,7 @@
                     "extracted_data": [
                         {
                             "type": "link",
-                            "request_description": "Link to navigate back to the home page",
+                            "request_description": "Link to navigate back to the home page.",
                             "identifier_type": "XPath",
                             "identifier_tracking": "//*[@class='nav navbar-nav']/li[1]/a"
                         },
@@ -182,24 +182,24 @@
                             "type": "link",
                             "request_description": "Link to return to the home page after submitting the contact form.",
                             "identifier_type": "XPath",
-                            "identifier_tracking": "//*[@id='header']/div[2]/div/div/ul/li[1]/a"
+                            "identifier_tracking": "//a[contains(text(), 'Home')]"
                         }
                     ]
                 }
             ],
             "token": {
-                "completion_tokens": 184,
+                "completion_tokens": 170,
                 "prompt_tokens": 21270,
-                "total_tokens": 21454,
+                "total_tokens": 21440,
                 "completion_tokens_details": null,
                 "prompt_tokens_details": null
             },
             "dispatcher": {
-                "memory_usage_MB": 0.80859375,
-                "peak_memory_MB": 0.80859375,
-                "start_time": "2026-01-26T00:48:24.511154",
-                "end_time": "2026-01-26T00:48:28.880745",
-                "duration_seconds": 4.369591
+                "memory_usage_MB": 1.35546875,
+                "peak_memory_MB": 1.35546875,
+                "start_time": "2026-01-26T01:24:41.876529",
+                "end_time": "2026-01-26T01:24:45.467217",
+                "duration_seconds": 3.590688
             }
         }
     ]

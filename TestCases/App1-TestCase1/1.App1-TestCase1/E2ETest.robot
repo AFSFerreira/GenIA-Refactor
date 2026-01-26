@@ -3,23 +3,18 @@ Library    SeleniumLibrary
 
 *** Variables ***
 ${URL}    http://automationexercise.com
-${EMAIL}  test@example.com
+${EMAIL_INPUT}    xpath=//*[@id='susbscribe_email']
+${SUBSCRIBE_BUTTON}    xpath=//*[@id='subscribe']
+${SUCCESS_MESSAGE}    xpath=//*[contains(text(), 'You have been successfully subscribed!')]
 
 *** Test Cases ***
-Verify Subscription in Home Page
+Verify Subscription in home page
     Open Browser    ${URL}    chrome
     Maximize Browser Window
     Title Should Be    Automation Exercise
-    Scroll Down To Footer
-    Page Should Contain Element    //h2[contains(text(), "SUBSCRIPTION")]     # modifiquei should be visible por esse  
-    Input Text    //input[@id='susbscribe_email']    ${EMAIL}
-    Click Button    //button[@id='subscribe']
-    Page Should Contain Element    //div[@id='success-subscribe']        # modifiquei should be visible por esse 
-    Page Should Contain Element    //div[contains(text(), 'You have been successfully subscribed!')]        # modifiquei should be visible por esse 
+    Scroll Down
+    Element Should Be Visible    ${SUCCESS_MESSAGE}
+    Input Text    ${EMAIL_INPUT}    test@example.com
+    Click Button    ${SUBSCRIBE_BUTTON}
+    Element Should Be Visible    ${SUCCESS_MESSAGE}
     Close Browser
-
-*** Keywords ***
-Scroll Down To Footer
-    Execute JavaScript    window.scrollTo(0, document.body.scrollHeight);
-
-# Tudo OK

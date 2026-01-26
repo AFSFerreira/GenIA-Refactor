@@ -42,7 +42,7 @@
                         },
                         {
                             "type": "input",
-                            "request_description": "Field to enter the user's email address for subscription",
+                            "request_description": "Field to enter the email address for subscription",
                             "identifier_type": "XPath",
                             "identifier_tracking": "//*[@id='susbscribe_email']"
                         },
@@ -50,7 +50,7 @@
                             "type": "button",
                             "request_description": "Button to submit the email for subscription",
                             "identifier_type": "XPath",
-                            "identifier_tracking": "//button[@id='subscribe']"
+                            "identifier_tracking": "//*[@id='subscribe']"
                         }
                     ]
                 },
@@ -59,25 +59,25 @@
                     "extracted_data": [
                         {
                             "type": "div",
-                            "request_description": "Div to display the success message after subscription",
+                            "request_description": "Div element to verify success message after subscription",
                             "identifier_type": "XPath",
                             "identifier_tracking": "//*[contains(text(), 'You have been successfully subscribed!')]"
                         },
                         {
                             "type": "div",
-                            "request_description": "Success message displayed after subscription",
+                            "request_description": "Success message indicating subscription was successful",
                             "identifier_type": "XPath",
                             "identifier_tracking": "//*[@id='success-subscribe']"
                         },
                         {
                             "type": "div",
-                            "request_description": "Div to display the success message after subscription",
+                            "request_description": "Div element to verify success message after subscription",
                             "identifier_type": "XPath",
                             "identifier_tracking": "//*[contains(text(), 'You have been successfully subscribed!')]"
                         },
                         {
                             "type": "div",
-                            "request_description": "Success message displayed after subscription",
+                            "request_description": "Success message indicating subscription was successful",
                             "identifier_type": "XPath",
                             "identifier_tracking": "//*[@id='success-subscribe']"
                         }
@@ -86,17 +86,17 @@
             ],
             "token": {
                 "completion_tokens": 564,
-                "prompt_tokens": 22737,
-                "total_tokens": 23301,
+                "prompt_tokens": 22641,
+                "total_tokens": 23205,
                 "completion_tokens_details": null,
                 "prompt_tokens_details": null
             },
             "dispatcher": {
-                "memory_usage_MB": 1.38671875,
-                "peak_memory_MB": 1.38671875,
-                "start_time": "2026-01-26T00:48:54.129569",
-                "end_time": "2026-01-26T00:49:00.929131",
-                "duration_seconds": 6.799562
+                "memory_usage_MB": 1.125,
+                "peak_memory_MB": 1.125,
+                "start_time": "2026-01-26T01:25:09.348434",
+                "end_time": "2026-01-26T01:25:19.796072",
+                "duration_seconds": 10.447638
             }
         }
     ]
