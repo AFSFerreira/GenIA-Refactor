@@ -1,14 +1,16 @@
 """
 Restructuring node (Level 1) - Converts test case into structured modules.
 """
+from langchain_core.messages import AIMessage
+
+from src.agents.test_refactor import generate_test_case_refactor
 from src.graph.state import GenIAState
-from src.models import TestCaseModel
-from src.utils.config import get_openai_client
+from src.tools.files import load_prompt
+from src.utils.enums import GenIAStateStatus
 from src.utils.logger import get_logger
-from src.utils.prompt_utils import load_prompt
+from src.tools.clients.gen_ia_client import GenIAClient
 
 logger = get_logger(__name__)
-
 
 def restructuring_node(state: GenIAState) -> GenIAState:
     """
@@ -22,44 +24,26 @@ def restructuring_node(state: GenIAState) -> GenIAState:
     """
     logger.info("Starting test case restructuring...")
     
-    template = load_prompt("level1_restructuring.jinja2")
+    state["execution_status"] = GenIAStateStatus.RESTRUCTURING
     
-    test_case_content = None
-    for msg in state["messages"]:
-        if msg.get("role") == "user" and "test_case_content" in msg:
-            test_case_content = msg["test_case_content"]
-            break
+    prompt = load_prompt("level1_restructuring.jinja2", test_case=state["test_case"])
     
-    if not test_case_content:
-        logger.error("Test case content not found in messages")
-        return state
+    refined_test_case = generate_test_case_refactor(client=GenIAClient.get_client(), prompt=prompt)
     
-    prompt = template.render(test_case=test_case_content)
+    # TODO: MELHORAR ESSE ERRO
+    if refined_test_case is None:
+        raise Exception()
     
-    client = get_openai_client()
-    completion = client.beta.chat.completions.parse(
-        model="gpt-4o-mini",
-        messages=[
-            {
-                "role": "system",
-                "content": prompt
-            }
-        ],
-        response_format=TestCaseModel
-    )
-    
-    test_plan = completion.choices[0].message.parsed
-    
-    state["test_plan"] = test_plan
-    state["execution_status"] = "extracting"
+    state["refined_test_case"] = refined_test_case
     state["current_module_index"] = 0
     
-    state["messages"].append({
-        "role": "assistant",
-        "content": f"Test case restructured with {len(test_plan.modules)} modules",
-        "node": "restructuring"
-    })
+    new_message = AIMessage(
+        content=f"Test case restructured with {len(refined_test_case.modules)} modules",
+        name="restructuring",
+    )
     
-    logger.info(f"Test case restructured successfully: {len(test_plan.modules)} modules")
+    state["messages"].append(new_message)
+    
+    logger.info(f"Test case restructured successfully: {len(refined_test_case.modules)} modules")
     
     return state

@@ -1,5 +1,5 @@
 """
-Reviewer Agent - Responsible for reviewing and validating generated scripts.
+refining Agent - Responsible for reviewing and validating generated scripts.
 """
 from src.graph.state import GenIAState
 from src.tools.validator import RobotValidator
@@ -8,7 +8,7 @@ from src.utils.logger import get_logger
 logger = get_logger(__name__)
 
 
-class ReviewerAgent:
+class RefiningAgent:
     """
     Agent responsible for reviewing and validating Robot Framework scripts.
     
@@ -17,7 +17,7 @@ class ReviewerAgent:
     """
     
     def __init__(self):
-        self.name = "Reviewer"
+        self.name = "refining"
         self.validator = RobotValidator()
     
     def execute(self, state: GenIAState, robot_file_path: str) -> tuple[bool, str]:
@@ -40,7 +40,7 @@ class ReviewerAgent:
             state["messages"].append({
                 "role": "assistant",
                 "content": "Script validated successfully",
-                "node": "reviewer"
+                "node": "refining"
             })
             return True, "Valid script"
         else:
@@ -48,6 +48,6 @@ class ReviewerAgent:
             state["messages"].append({
                 "role": "assistant",
                 "content": f"Validation error: {error_msg}",
-                "node": "reviewer"
+                "node": "refining"
             })
             return False, error_msg
