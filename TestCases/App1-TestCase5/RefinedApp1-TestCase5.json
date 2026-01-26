@@ -3,7 +3,7 @@
   "modules": [
     {
       "url": "http://automationexercise.com",
-      "purpose": "Homepage access and navigation to login/sign-up area",
+      "purpose": "Home page of the application.",
       "execution_steps": [
         {
           "step": "Launch browser",
@@ -25,7 +25,7 @@
     },
     {
       "url": "https://automationexercise.com/login",
-      "purpose": "Navigate to signup page and register new user",
+      "purpose": "Login page for user signup.",
       "execution_steps": [
         {
           "step": "Verify 'New User Signup!' is visible",
@@ -38,7 +38,13 @@
         {
           "step": "Click 'Signup' button",
           "extracted_data": []
-        },
+        }
+      ]
+    },
+    {
+      "url": "https://automationexercise.com/signup",
+      "purpose": "User account creation page.",
+      "execution_steps": [
         {
           "step": "Verify that 'ENTER ACCOUNT INFORMATION' is visible",
           "extracted_data": []
@@ -60,14 +66,14 @@
           "extracted_data": []
         },
         {
-          "step": "Click 'Create Account' button",
+          "step": "Click 'Create Account button'",
           "extracted_data": []
         }
       ]
     },
     {
-      "url": "https://automationexercise.com/login",
-      "purpose": "Verify account creation confirmation",
+      "url": "https://automationexercise.com/account_created",
+      "purpose": "Confirmation page after account creation.",
       "execution_steps": [
         {
           "step": "Verify that 'ACCOUNT CREATED!' is visible",
@@ -80,8 +86,8 @@
       ]
     },
     {
-      "url": "http://automationexercise.com",
-      "purpose": "Check successful login and account management",
+      "url": "https://automationexercise.com/account",
+      "purpose": "User account page after successful login.",
       "execution_steps": [
         {
           "step": "Verify that 'Logged in as username' is visible",
@@ -90,7 +96,13 @@
         {
           "step": "Click 'Delete Account' button",
           "extracted_data": []
-        },
+        }
+      ]
+    },
+    {
+      "url": "https://automationexercise.com/account_deleted",
+      "purpose": "Confirmation page after account deletion.",
+      "execution_steps": [
         {
           "step": "Verify that 'ACCOUNT DELETED!' is visible and click 'Continue' button",
           "extracted_data": []

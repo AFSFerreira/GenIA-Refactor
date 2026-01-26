@@ -3,7 +3,7 @@
     "modules": [
         {
             "url": "http://automationexercise.com",
-            "purpose": "Home page of the application where subscription occurs.",
+            "purpose": "Home page of the automation exercise website.",
             "execution_steps": [
                 {
                     "step": "Launch browser",
@@ -30,15 +30,15 @@
                     "extracted_data": [
                         {
                             "type": "input",
-                            "request_description": "Field to enter the user's email address for subscription",
+                            "request_description": "Field to enter the email address for subscription",
                             "identifier_type": "XPath",
-                            "identifier_tracking": "//input[@id='susbscribe_email']"
+                            "identifier_tracking": "//*[@id='susbscribe_email']"
                         },
                         {
                             "type": "button",
-                            "request_description": "Button to submit the subscription form",
+                            "request_description": "Button to submit the email for subscription",
                             "identifier_type": "XPath",
-                            "identifier_tracking": "//button[@id='subscribe']"
+                            "identifier_tracking": "//*[@id='subscribe']"
                         },
                         {
                             "type": "input",
@@ -48,21 +48,9 @@
                         },
                         {
                             "type": "button",
-                            "request_description": "Button to submit the subscription form",
+                            "request_description": "Button to submit the email for subscription",
                             "identifier_type": "XPath",
-                            "identifier_tracking": "//*[@id='subscribe']"
-                        },
-                        {
-                            "type": "input",
-                            "request_description": "Field to enter the user's email address for subscription",
-                            "identifier_type": "XPath",
-                            "identifier_tracking": "//*[@id='susbscribe']"
-                        },
-                        {
-                            "type": "button",
-                            "request_description": "Button to submit the subscription form",
-                            "identifier_type": "XPath",
-                            "identifier_tracking": "//*[@id='susbscribe']/button"
+                            "identifier_tracking": "//button[@id='subscribe']"
                         }
                     ]
                 },
@@ -71,13 +59,7 @@
                     "extracted_data": [
                         {
                             "type": "div",
-                            "request_description": "Success message displayed after subscription",
-                            "identifier_type": "XPath",
-                            "identifier_tracking": "//*[@id='success-subscribe']"
-                        },
-                        {
-                            "type": "div",
-                            "request_description": "Div element that contains the success message after subscription",
+                            "request_description": "Div to display the success message after subscription",
                             "identifier_type": "XPath",
                             "identifier_tracking": "//*[contains(text(), 'You have been successfully subscribed!')]"
                         },
@@ -89,26 +71,32 @@
                         },
                         {
                             "type": "div",
-                            "request_description": "Div element that contains the success message after subscription",
+                            "request_description": "Div to display the success message after subscription",
                             "identifier_type": "XPath",
                             "identifier_tracking": "//*[contains(text(), 'You have been successfully subscribed!')]"
+                        },
+                        {
+                            "type": "div",
+                            "request_description": "Success message displayed after subscription",
+                            "identifier_type": "XPath",
+                            "identifier_tracking": "//*[@id='success-subscribe']"
                         }
                     ]
                 }
             ],
             "token": {
-                "completion_tokens": 698,
-                "prompt_tokens": 22441,
-                "total_tokens": 23139,
+                "completion_tokens": 564,
+                "prompt_tokens": 22737,
+                "total_tokens": 23301,
                 "completion_tokens_details": null,
                 "prompt_tokens_details": null
             },
             "dispatcher": {
-                "memory_usage_MB": 1.5390625,
-                "peak_memory_MB": 1.5390625,
-                "start_time": "2025-04-20T15:14:29.503781",
-                "end_time": "2025-04-20T15:14:37.297748",
-                "duration_seconds": 7.793967
+                "memory_usage_MB": 1.38671875,
+                "peak_memory_MB": 1.38671875,
+                "start_time": "2026-01-26T00:48:54.129569",
+                "end_time": "2026-01-26T00:49:00.929131",
+                "duration_seconds": 6.799562
             }
         }
     ]

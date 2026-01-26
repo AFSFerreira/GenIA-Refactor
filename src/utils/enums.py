@@ -16,3 +16,5 @@ class GenIAStateStatus(StrEnum):
     EXPLORING = auto()
     REFINING = auto()
     CODING = auto()
+    FINISHED = auto()
+

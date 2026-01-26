@@ -10,7 +10,6 @@ from .file_system import (
     write_robot_file,
     map_extracted_data_to_steps
 )
-from .validator import RobotValidator
 
 __all__ = [
     'BrowserTool',
@@ -20,5 +19,5 @@ __all__ = [
     'read_json_file',
     'write_robot_file',
     'map_extracted_data_to_steps',
-    'RobotValidator'
 ]
+

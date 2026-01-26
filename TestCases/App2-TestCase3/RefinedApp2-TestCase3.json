@@ -3,7 +3,7 @@
   "modules": [
     {
       "url": "http://localhost:5173/",
-      "purpose": "Home Page - Initial landing page of the application.",
+      "purpose": "Home page of the application",
       "execution_steps": [
         {
           "step": "Launch browser",
@@ -25,7 +25,7 @@
     },
     {
       "url": "http://localhost:5173/LogIn",
-      "purpose": "Login Page - Allows users to enter their credentials.",
+      "purpose": "Login page of the application",
       "execution_steps": [
         {
           "step": "Verify 'Log In' is visible",

@@ -3,7 +3,7 @@
     "modules": [
         {
             "url": "http://automationexercise.com",
-            "purpose": "Home page where the user starts the journey.",
+            "purpose": "Home page of the automation exercise website.",
             "execution_steps": [
                 {
                     "step": "Launch browser",
@@ -11,14 +11,7 @@
                 },
                 {
                     "step": "Navigate to url 'http://automationexercise.com'",
-                    "extracted_data": [
-                        {
-                            "type": "link",
-                            "request_description": "Navigate to the home page of the website.",
-                            "identifier_type": "XPath",
-                            "identifier_tracking": "//a[@href='/' and contains(text(), 'Home')]"
-                        }
-                    ]
+                    "extracted_data": []
                 },
                 {
                     "step": "Verify that home page is visible successfully",
@@ -29,37 +22,37 @@
                     "extracted_data": [
                         {
                             "type": "button",
-                            "request_description": "Button to navigate to the Contact Us page",
+                            "request_description": "Click on the 'Contact Us' button to navigate to the contact page.",
                             "identifier_type": "XPath",
-                            "identifier_tracking": "//*[@id='contact-us-button']"
+                            "identifier_tracking": "//a[contains(text(), 'Contact us')]"
                         },
                         {
-                            "type": "link",
-                            "request_description": "Click on the 'Contact Us' button to reach the contact page.",
+                            "type": "button",
+                            "request_description": "Click on the 'Contact Us' button to navigate to the contact page.",
                             "identifier_type": "XPath",
-                            "identifier_tracking": "//a[@href='/contact_us' and contains(text(), 'Contact us')]"
+                            "identifier_tracking": "//*[@id='contact_us']"
                         }
                     ]
                 }
             ],
             "token": {
-                "completion_tokens": 248,
-                "prompt_tokens": 20846,
-                "total_tokens": 21094,
+                "completion_tokens": 176,
+                "prompt_tokens": 20408,
+                "total_tokens": 20584,
                 "completion_tokens_details": null,
                 "prompt_tokens_details": null
             },
             "dispatcher": {
-                "memory_usage_MB": 0.046875,
-                "peak_memory_MB": 0.046875,
-                "start_time": "2025-04-20T15:27:06.145807",
-                "end_time": "2025-04-20T15:27:10.880131",
-                "duration_seconds": 4.734324
+                "memory_usage_MB": 90.8828125,
+                "peak_memory_MB": 90.8828125,
+                "start_time": "2026-01-26T00:47:34.680177",
+                "end_time": "2026-01-26T00:47:42.884923",
+                "duration_seconds": 8.204746
             }
         },
         {
             "url": "https://automationexercise.com/contact_us",
-            "purpose": "Contact Us page where users can fill in their details.",
+            "purpose": "Contact Us page where users can submit their inquiries.",
             "execution_steps": [
                 {
                     "step": "Verify 'GET IN TOUCH' is visible",
@@ -128,7 +121,7 @@
                     "extracted_data": [
                         {
                             "type": "button",
-                            "request_description": "OK button in the confirmation dialog",
+                            "request_description": "OK button to confirm submission",
                             "identifier_type": "XPath",
                             "identifier_tracking": "//button[contains(text(), 'OK')]"
                         }
@@ -158,183 +151,55 @@
                 }
             ],
             "token": {
-                "completion_tokens": 689,
-                "prompt_tokens": 7723,
-                "total_tokens": 8412,
+                "completion_tokens": 687,
+                "prompt_tokens": 8205,
+                "total_tokens": 8892,
                 "completion_tokens_details": null,
                 "prompt_tokens_details": null
             },
             "dispatcher": {
-                "memory_usage_MB": 0.0,
-                "peak_memory_MB": 0.0,
-                "start_time": "2025-04-20T15:27:15.252340",
-                "end_time": "2025-04-20T15:27:27.455730",
-                "duration_seconds": 12.20339
+                "memory_usage_MB": 0.2578125,
+                "peak_memory_MB": 0.2578125,
+                "start_time": "2026-01-26T00:47:49.453253",
+                "end_time": "2026-01-26T00:48:08.681563",
+                "duration_seconds": 19.22831
             }
         },
         {
             "url": "http://automationexercise.com",
-            "purpose": "Returning to Home page after submission.",
-            "execution_steps": [],
-            "extracted_data": [
+            "purpose": "Return to the home page after submitting the contact form.",
+            "execution_steps": [
                 {
-                    "type": "button",
-                    "request_description": "Button to navigate back to the home page after submission.",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//a[@href='/' and contains(@class, 'btn-success')]",
-                    "step_name": "Return to Home page after submission",
-                    "error": false
-                },
-                {
-                    "type": "link",
-                    "request_description": "Link to return to the home page after submission.",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//*[@class='nav navbar-nav']/li[1]/a",
-                    "step_name": "Returning to Home page after submission.",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add the product to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//a[@class='btn btn-default add-to-cart' and @data-product-id='1']",
-                    "step_name": "Add Blue Top to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add the product to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//a[@class='btn btn-default add-to-cart' and @data-product-id='2']",
-                    "step_name": "Add Men Tshirt to cart",
-                    "error": false
-                },
-                {
-                    "type": "link",
-                    "request_description": "Link to view the cart after adding products",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//a[contains(text(), 'View Cart')]",
-                    "step_name": "View cart after adding products",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to continue shopping after adding a product to the cart.",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//button[contains(@class, 'close-modal')]",
-                    "step_name": "Return to Home page after submission.",
-                    "error": false
-                },
-                {
-                    "type": "link",
-                    "request_description": "Link to view the cart after adding a product.",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//a[contains(text(), 'View Cart')]",
-                    "step_name": "Return to Home page after submission.",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to navigate to the Test Cases page.",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//a[@class='test_cases_list']/button",
-                    "step_name": "Navigate to Test Cases",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to navigate to the APIs list page.",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//a[@class='apis_list']/button",
-                    "step_name": "Navigate to APIs list",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Soft Stretch Jeans to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][1]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Soft Stretch Jeans to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Regular Fit Straight Jeans to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][2]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Regular Fit Straight Jeans to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Grunt Blue Slim Fit Jeans to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][3]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Grunt Blue Slim Fit Jeans to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Rose Pink Embroidered Maxi Dress to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][4]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Rose Pink Embroidered Maxi Dress to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Cotton Silk Hand Block Print Saree to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][5]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Cotton Silk Hand Block Print Saree to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Rust Red Linen Saree to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][6]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Rust Red Linen Saree to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Beautiful Peacock Blue Cotton Linen Saree to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][7]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Beautiful Peacock Blue Cotton Linen Saree to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Lace Top For Women to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][8]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Lace Top For Women to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add GRAPHIC DESIGN MEN T SHIRT - BLUE to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][9]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add GRAPHIC DESIGN MEN T SHIRT - BLUE to cart",
-                    "error": false
+                    "step": "Verify that landed to home page successfully",
+                    "extracted_data": [
+                        {
+                            "type": "link",
+                            "request_description": "Link to navigate back to the home page",
+                            "identifier_type": "XPath",
+                            "identifier_tracking": "//*[@class='nav navbar-nav']/li[1]/a"
+                        },
+                        {
+                            "type": "link",
+                            "request_description": "Link to return to the home page after submitting the contact form.",
+                            "identifier_type": "XPath",
+                            "identifier_tracking": "//*[@id='header']/div[2]/div/div/ul/li[1]/a"
+                        }
+                    ]
                 }
             ],
             "token": {
-                "completion_tokens": 1462,
-                "prompt_tokens": 45365,
-                "total_tokens": 46827,
+                "completion_tokens": 184,
+                "prompt_tokens": 21270,
+                "total_tokens": 21454,
                 "completion_tokens_details": null,
                 "prompt_tokens_details": null
             },
             "dispatcher": {
-                "memory_usage_MB": 0.29296875,
-                "peak_memory_MB": 0.29296875,
-                "start_time": "2025-04-20T15:27:37.025287",
-                "end_time": "2025-04-20T15:27:51.313317",
-                "duration_seconds": 14.28803
+                "memory_usage_MB": 0.80859375,
+                "peak_memory_MB": 0.80859375,
+                "start_time": "2026-01-26T00:48:24.511154",
+                "end_time": "2026-01-26T00:48:28.880745",
+                "duration_seconds": 4.369591
             }
         }
     ]

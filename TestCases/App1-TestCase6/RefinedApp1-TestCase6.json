@@ -3,7 +3,7 @@
   "modules": [
     {
       "url": "http://automationexercise.com",
-      "purpose": "Home page where the user starts the journey.",
+      "purpose": "Home page of the automation exercise website.",
       "execution_steps": [
         {
           "step": "Launch browser",
@@ -25,7 +25,7 @@
     },
     {
       "url": "https://automationexercise.com/contact_us",
-      "purpose": "Contact Us page where users can fill in their details.",
+      "purpose": "Contact Us page where users can submit their inquiries.",
       "execution_steps": [
         {
           "step": "Verify 'GET IN TOUCH' is visible",
@@ -59,8 +59,13 @@
     },
     {
       "url": "http://automationexercise.com",
-      "purpose": "Returning to Home page after submission.",
-      "execution_steps": []
+      "purpose": "Return to the home page after submitting the contact form.",
+      "execution_steps": [
+        {
+          "step": "Verify that landed to home page successfully",
+          "extracted_data": []
+        }
+      ]
     }
   ]
 }

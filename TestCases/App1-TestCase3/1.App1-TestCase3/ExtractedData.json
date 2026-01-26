@@ -28,26 +28,26 @@
                         },
                         {
                             "type": "button",
-                            "request_description": "Button to navigate to the Signup / Login page",
+                            "request_description": "Button to navigate to the Signup or Login page",
                             "identifier_type": "XPath",
-                            "identifier_tracking": "//*[@id='header']/div[2]/div/div/div[2]/div[1]/ul/li[1]/a"
+                            "identifier_tracking": "//a[contains(text(), 'Signup / Login')]"
                         }
                     ]
                 }
             ],
             "token": {
-                "completion_tokens": 190,
-                "prompt_tokens": 20854,
-                "total_tokens": 21044,
+                "completion_tokens": 169,
+                "prompt_tokens": 21385,
+                "total_tokens": 21554,
                 "completion_tokens_details": null,
                 "prompt_tokens_details": null
             },
             "dispatcher": {
-                "memory_usage_MB": 0.15625,
-                "peak_memory_MB": 0.15625,
-                "start_time": "2025-04-20T15:17:32.068558",
-                "end_time": "2025-04-20T15:17:35.809401",
-                "duration_seconds": 3.740843
+                "memory_usage_MB": 1.30859375,
+                "peak_memory_MB": 1.30859375,
+                "start_time": "2026-01-26T00:49:11.628439",
+                "end_time": "2026-01-26T00:49:15.646671",
+                "duration_seconds": 4.018232
             }
         },
         {
@@ -61,7 +61,7 @@
                             "type": "h2",
                             "request_description": "'Login to your account' header",
                             "identifier_type": "XPath",
-                            "identifier_tracking": "//h2[text()='Login to your account']"
+                            "identifier_tracking": "//*[@id='form']/div[1]/h2"
                         }
                     ]
                 },
@@ -72,13 +72,13 @@
                             "type": "input",
                             "request_description": "Field to enter the user's email address",
                             "identifier_type": "XPath",
-                            "identifier_tracking": "//*[@id='form']//input[@name='email']"
+                            "identifier_tracking": "//*[@id='form']/div[1]/form/input[1]"
                         },
                         {
                             "type": "input",
                             "request_description": "Field to enter the user's password",
                             "identifier_type": "XPath",
-                            "identifier_tracking": "//*[@id='form']//input[@name='password']"
+                            "identifier_tracking": "//*[@id='form']/div[1]/form/input[2]"
                         }
                     ]
                 },
@@ -87,9 +87,9 @@
                     "extracted_data": [
                         {
                             "type": "button",
-                            "request_description": "Button to submit the login form",
+                            "request_description": "'Login' button to submit the form",
                             "identifier_type": "XPath",
-                            "identifier_tracking": "//*[@id='form']//button[@type='submit']"
+                            "identifier_tracking": "//*[@id='form']/div[1]/form/button"
                         }
                     ]
                 },
@@ -100,28 +100,25 @@
                             "type": "div",
                             "request_description": "Error message for incorrect email or password",
                             "identifier_type": "XPath",
-                            "identifier_tracking": "//div[contains(text(), 'Your email or password is incorrect!')]"
+                            "identifier_tracking": "//*[@id='form']/div[1]/form/div[contains(text(), 'Your email or password is incorrect!')]"
                         }
                     ]
                 }
             ],
             "token": {
-                "completion_tokens": 347,
-                "prompt_tokens": 5589,
-                "total_tokens": 5936,
+                "completion_tokens": 361,
+                "prompt_tokens": 5963,
+                "total_tokens": 6324,
                 "completion_tokens_details": null,
                 "prompt_tokens_details": null
             },
             "dispatcher": {
-                "memory_usage_MB": 0.0,
-                "peak_memory_MB": 0.0,
-                "start_time": "2025-04-20T15:17:41.363234",
-                "end_time": "2025-04-20T15:17:46.710320",
-                "duration_seconds": 5.347086
+                "memory_usage_MB": 0.0078125,
+                "peak_memory_MB": 0.0078125,
+                "start_time": "2026-01-26T00:49:19.868305",
+                "end_time": "2026-01-26T00:49:26.836607",
+                "duration_seconds": 6.968302
             }
         }
     ]
 }
-
-
-  

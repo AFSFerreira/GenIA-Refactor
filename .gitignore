@@ -2,3 +2,5 @@
 .tool-versions
 venv
 .venv
+
+/src/**/__pycache__

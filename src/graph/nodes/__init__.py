@@ -10,5 +10,5 @@ __all__ = [
     'restructuring_node',
     'extraction_node',
     'refinement_node',
-    'generation_node'
+    'generation_node',
 ]

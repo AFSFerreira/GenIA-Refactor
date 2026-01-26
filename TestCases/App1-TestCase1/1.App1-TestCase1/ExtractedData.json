@@ -3,7 +3,7 @@
     "modules": [
         {
             "url": "http://automationexercise.com",
-            "purpose": "Home page of the application where subscription occurs.",
+            "purpose": "Home page of the automation exercise website.",
             "execution_steps": [
                 {
                     "step": "Launch browser",
@@ -30,27 +30,27 @@
                     "extracted_data": [
                         {
                             "type": "input",
+                            "request_description": "Field to enter the email address for subscription",
+                            "identifier_type": "XPath",
+                            "identifier_tracking": "//*[@id='susbscribe_id']"
+                        },
+                        {
+                            "type": "button",
+                            "request_description": "Button to submit the email for subscription",
+                            "identifier_type": "XPath",
+                            "identifier_tracking": "//*[@id='subscribe']"
+                        },
+                        {
+                            "type": "input",
                             "request_description": "Field to enter the user's email address for subscription",
                             "identifier_type": "XPath",
                             "identifier_tracking": "//input[@id='susbscribe_email']"
                         },
                         {
                             "type": "button",
-                            "request_description": "Button to submit the subscription form",
+                            "request_description": "Button to submit the email for subscription",
                             "identifier_type": "XPath",
                             "identifier_tracking": "//button[@id='subscribe']"
-                        },
-                        {
-                            "type": "input",
-                            "request_description": "Field to enter the user's email address for subscription",
-                            "identifier_type": "XPath",
-                            "identifier_tracking": "//*[@id='susbscribe']"
-                        },
-                        {
-                            "type": "button",
-                            "request_description": "Button to submit the subscription form",
-                            "identifier_type": "XPath",
-                            "identifier_tracking": "//*[@id='susbscribe']/button"
                         }
                     ]
                 },
@@ -59,32 +59,32 @@
                     "extracted_data": [
                         {
                             "type": "div",
-                            "request_description": "Success message displayed after subscription",
+                            "request_description": "Div to display the success message after subscription",
                             "identifier_type": "XPath",
-                            "identifier_tracking": "//*[@id='success-subscribe']"
+                            "identifier_tracking": "//*[contains(text(), 'You have been successfully subscribed!')]"
                         },
                         {
                             "type": "div",
-                            "request_description": "Div element that contains the success message after subscription",
+                            "request_description": "Success message displayed after subscription",
                             "identifier_type": "XPath",
-                            "identifier_tracking": "//*[contains(text(), 'You have been successfully subscribed!')]"
+                            "identifier_tracking": "//*[@id='success-subscribe']"
                         }
                     ]
                 }
             ],
             "token": {
-                "completion_tokens": 435,
-                "prompt_tokens": 23564,
-                "total_tokens": 23999,
+                "completion_tokens": 429,
+                "prompt_tokens": 21574,
+                "total_tokens": 22003,
                 "completion_tokens_details": null,
                 "prompt_tokens_details": null
             },
             "dispatcher": {
-                "memory_usage_MB": 85.6484375,
-                "peak_memory_MB": 85.6484375,
-                "start_time": "2025-04-20T15:14:19.657251",
-                "end_time": "2025-04-20T15:14:29.476356",
-                "duration_seconds": 9.819105
+                "memory_usage_MB": 0.01953125,
+                "peak_memory_MB": 0.01953125,
+                "start_time": "2026-01-26T00:48:48.124434",
+                "end_time": "2026-01-26T00:48:54.113989",
+                "duration_seconds": 5.989555
             }
         }
     ]

@@ -3,7 +3,7 @@
   "modules": [
     {
       "url": "http://automationexercise.com",
-      "purpose": "Home page of the application where subscription occurs.",
+      "purpose": "Home page of the automation exercise website.",
       "execution_steps": [
         {
           "step": "Launch browser",

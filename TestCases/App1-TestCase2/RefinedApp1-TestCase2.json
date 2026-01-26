@@ -1,9 +1,9 @@
 {
-  "testCase": "Verify Scroll Up and Scroll Down functionality",
+  "testCase": "Verify Scroll Up using 'Arrow' button and Scroll Down functionality",
   "modules": [
     {
       "url": "http://automationexercise.com",
-      "purpose": "Landing page and initial actions for scrolling functionality testing.",
+      "purpose": "Home page of the Automation Exercise website.",
       "execution_steps": [
         {
           "step": "Launch browser",

@@ -3,7 +3,7 @@
     "modules": [
         {
             "url": "http://automationexercise.com",
-            "purpose": "Home page where the user starts the journey.",
+            "purpose": "Home page of the automation exercise website.",
             "execution_steps": [
                 {
                     "step": "Launch browser",
@@ -11,20 +11,7 @@
                 },
                 {
                     "step": "Navigate to url 'http://automationexercise.com'",
-                    "extracted_data": [
-                        {
-                            "type": "link",
-                            "request_description": "Navigate to the home page of the website.",
-                            "identifier_type": "XPath",
-                            "identifier_tracking": "//a[@href='/' and contains(text(), 'Home')]"
-                        },
-                        {
-                            "type": "link",
-                            "request_description": "Navigate to the home page of the website.",
-                            "identifier_type": "XPath",
-                            "identifier_tracking": "//a[@href='/' and contains(text(), 'Home')]"
-                        }
-                    ]
+                    "extracted_data": []
                 },
                 {
                     "step": "Verify that home page is visible successfully",
@@ -35,49 +22,49 @@
                     "extracted_data": [
                         {
                             "type": "button",
-                            "request_description": "Button to navigate to the Contact Us page",
+                            "request_description": "Click on the 'Contact Us' button to navigate to the contact page.",
                             "identifier_type": "XPath",
-                            "identifier_tracking": "//*[@id='contact-us-button']"
-                        },
-                        {
-                            "type": "link",
-                            "request_description": "Click on the 'Contact Us' button to reach the contact page.",
-                            "identifier_type": "XPath",
-                            "identifier_tracking": "//a[@href='/contact_us' and contains(text(), 'Contact us')]"
+                            "identifier_tracking": "//a[contains(text(), 'Contact us')]"
                         },
                         {
                             "type": "button",
-                            "request_description": "Button to navigate to the Contact Us page",
+                            "request_description": "Click on the 'Contact Us' button to navigate to the contact page.",
                             "identifier_type": "XPath",
-                            "identifier_tracking": "//*[@id='contact-us-button']"
+                            "identifier_tracking": "//*[@id='contact_us']"
                         },
                         {
-                            "type": "link",
-                            "request_description": "Click on the 'Contact Us' button to reach the contact page.",
+                            "type": "button",
+                            "request_description": "Click on the 'Contact Us' button to navigate to the contact page.",
                             "identifier_type": "XPath",
-                            "identifier_tracking": "//a[@href='/contact_us' and contains(text(), 'Contact us')]"
+                            "identifier_tracking": "//a[contains(text(), 'Contact us')]"
+                        },
+                        {
+                            "type": "button",
+                            "request_description": "Click on the 'Contact Us' button to navigate to the contact page.",
+                            "identifier_type": "XPath",
+                            "identifier_tracking": "//*[@id='contact_us']"
                         }
                     ]
                 }
             ],
             "token": {
-                "completion_tokens": 454,
-                "prompt_tokens": 21597,
-                "total_tokens": 22051,
+                "completion_tokens": 307,
+                "prompt_tokens": 22185,
+                "total_tokens": 22492,
                 "completion_tokens_details": null,
                 "prompt_tokens_details": null
             },
             "dispatcher": {
-                "memory_usage_MB": 0.125,
-                "peak_memory_MB": 0.125,
-                "start_time": "2025-04-20T15:27:10.919030",
-                "end_time": "2025-04-20T15:27:15.198341",
-                "duration_seconds": 4.279311
+                "memory_usage_MB": 1.53125,
+                "peak_memory_MB": 1.53125,
+                "start_time": "2026-01-26T00:47:42.900491",
+                "end_time": "2026-01-26T00:47:49.440044",
+                "duration_seconds": 6.539553
             }
         },
         {
             "url": "https://automationexercise.com/contact_us",
-            "purpose": "Contact Us page where users can fill in their details.",
+            "purpose": "Contact Us page where users can submit their inquiries.",
             "execution_steps": [
                 {
                     "step": "Verify 'GET IN TOUCH' is visible",
@@ -146,7 +133,7 @@
                     "extracted_data": [
                         {
                             "type": "button",
-                            "request_description": "OK button in the confirmation dialog",
+                            "request_description": "OK button to confirm submission",
                             "identifier_type": "XPath",
                             "identifier_tracking": "//button[contains(text(), 'OK')]"
                         }
@@ -176,903 +163,67 @@
                 }
             ],
             "token": {
-                "completion_tokens": 689,
-                "prompt_tokens": 6749,
-                "total_tokens": 7438,
+                "completion_tokens": 687,
+                "prompt_tokens": 7259,
+                "total_tokens": 7946,
                 "completion_tokens_details": null,
                 "prompt_tokens_details": null
             },
             "dispatcher": {
-                "memory_usage_MB": -0.015625,
-                "peak_memory_MB": -0.015625,
-                "start_time": "2025-04-20T15:27:27.468875",
-                "end_time": "2025-04-20T15:27:36.983170",
-                "duration_seconds": 9.514295
+                "memory_usage_MB": 0.265625,
+                "peak_memory_MB": 0.265625,
+                "start_time": "2026-01-26T00:48:08.700233",
+                "end_time": "2026-01-26T00:48:24.495218",
+                "duration_seconds": 15.794985
             }
         },
         {
             "url": "http://automationexercise.com",
-            "purpose": "Returning to Home page after submission.",
-            "execution_steps": [],
-            "extracted_data": [
-                {
-                    "type": "button",
-                    "request_description": "Button to navigate back to the home page after submission.",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//a[@href='/' and contains(@class, 'btn-success')]",
-                    "step_name": "Return to Home page after submission",
-                    "error": false
-                },
-                {
-                    "type": "link",
-                    "request_description": "Link to return to the home page after submission.",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//*[@class='nav navbar-nav']/li[1]/a",
-                    "step_name": "Returning to Home page after submission.",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add the product to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//a[@class='btn btn-default add-to-cart' and @data-product-id='1']",
-                    "step_name": "Add Blue Top to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add the product to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//a[@class='btn btn-default add-to-cart' and @data-product-id='2']",
-                    "step_name": "Add Men Tshirt to cart",
-                    "error": false
-                },
-                {
-                    "type": "link",
-                    "request_description": "Link to view the cart after adding products",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//a[contains(text(), 'View Cart')]",
-                    "step_name": "View cart after adding products",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to continue shopping after adding a product to the cart.",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//button[contains(@class, 'close-modal')]",
-                    "step_name": "Return to Home page after submission.",
-                    "error": false
-                },
-                {
-                    "type": "link",
-                    "request_description": "Link to view the cart after adding a product.",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//a[contains(text(), 'View Cart')]",
-                    "step_name": "Return to Home page after submission.",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to navigate to the Test Cases page.",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//a[@class='test_cases_list']/button",
-                    "step_name": "Navigate to Test Cases",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to navigate to the APIs list page.",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//a[@class='apis_list']/button",
-                    "step_name": "Navigate to APIs list",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Soft Stretch Jeans to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][1]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Soft Stretch Jeans to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Regular Fit Straight Jeans to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][2]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Regular Fit Straight Jeans to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Grunt Blue Slim Fit Jeans to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][3]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Grunt Blue Slim Fit Jeans to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Rose Pink Embroidered Maxi Dress to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][4]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Rose Pink Embroidered Maxi Dress to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Cotton Silk Hand Block Print Saree to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][5]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Cotton Silk Hand Block Print Saree to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Rust Red Linen Saree to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][6]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Rust Red Linen Saree to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Beautiful Peacock Blue Cotton Linen Saree to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][7]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Beautiful Peacock Blue Cotton Linen Saree to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Lace Top For Women to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][8]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Lace Top For Women to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add GRAPHIC DESIGN MEN T SHIRT - BLUE to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][9]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add GRAPHIC DESIGN MEN T SHIRT - BLUE to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to navigate back to the home page after submission.",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//a[@href='/' and contains(@class, 'btn-success')]",
-                    "step_name": "Return to Home page after submission",
-                    "error": false
-                },
-                {
-                    "type": "link",
-                    "request_description": "Link to return to the home page after submission.",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//*[@class='nav navbar-nav']/li[1]/a",
-                    "step_name": "Returning to Home page after submission.",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add the product to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//a[@class='btn btn-default add-to-cart' and @data-product-id='1']",
-                    "step_name": "Add Blue Top to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add the product to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//a[@class='btn btn-default add-to-cart' and @data-product-id='2']",
-                    "step_name": "Add Men Tshirt to cart",
-                    "error": false
-                },
-                {
-                    "type": "link",
-                    "request_description": "Link to view the cart after adding products",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//a[contains(text(), 'View Cart')]",
-                    "step_name": "View cart after adding products",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to continue shopping after adding a product to the cart.",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//button[contains(@class, 'close-modal')]",
-                    "step_name": "Return to Home page after submission.",
-                    "error": false
-                },
-                {
-                    "type": "link",
-                    "request_description": "Link to view the cart after adding a product.",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//a[contains(text(), 'View Cart')]",
-                    "step_name": "Return to Home page after submission.",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to navigate to the Test Cases page.",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//a[@class='test_cases_list']/button",
-                    "step_name": "Navigate to Test Cases",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to navigate to the APIs list page.",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//a[@class='apis_list']/button",
-                    "step_name": "Navigate to APIs list",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Soft Stretch Jeans to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][1]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Soft Stretch Jeans to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Regular Fit Straight Jeans to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][2]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Regular Fit Straight Jeans to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Grunt Blue Slim Fit Jeans to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][3]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Grunt Blue Slim Fit Jeans to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Rose Pink Embroidered Maxi Dress to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][4]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Rose Pink Embroidered Maxi Dress to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Cotton Silk Hand Block Print Saree to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][5]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Cotton Silk Hand Block Print Saree to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Rust Red Linen Saree to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][6]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Rust Red Linen Saree to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Beautiful Peacock Blue Cotton Linen Saree to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][7]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Beautiful Peacock Blue Cotton Linen Saree to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Lace Top For Women to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][8]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Lace Top For Women to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add GRAPHIC DESIGN MEN T SHIRT - BLUE to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][9]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add GRAPHIC DESIGN MEN T SHIRT - BLUE to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to navigate back to the home page after submission.",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//a[@href='/' and contains(@class, 'btn-success')]",
-                    "step_name": "Return to Home page after submission",
-                    "error": false
-                },
-                {
-                    "type": "link",
-                    "request_description": "Link to return to the home page after submission.",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//*[@class='nav navbar-nav']/li[1]/a",
-                    "step_name": "Returning to Home page after submission.",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add the product to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//a[@class='btn btn-default add-to-cart' and @data-product-id='1']",
-                    "step_name": "Add Blue Top to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add the product to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//a[@class='btn btn-default add-to-cart' and @data-product-id='2']",
-                    "step_name": "Add Men Tshirt to cart",
-                    "error": false
-                },
-                {
-                    "type": "link",
-                    "request_description": "Link to view the cart after adding products",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//a[contains(text(), 'View Cart')]",
-                    "step_name": "View cart after adding products",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to continue shopping after adding a product to the cart.",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//button[contains(@class, 'close-modal')]",
-                    "step_name": "Return to Home page after submission.",
-                    "error": false
-                },
-                {
-                    "type": "link",
-                    "request_description": "Link to view the cart after adding a product.",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//a[contains(text(), 'View Cart')]",
-                    "step_name": "Return to Home page after submission.",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to navigate to the Test Cases page.",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//a[@class='test_cases_list']/button",
-                    "step_name": "Navigate to Test Cases",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to navigate to the APIs list page.",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//a[@class='apis_list']/button",
-                    "step_name": "Navigate to APIs list",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Soft Stretch Jeans to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][1]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Soft Stretch Jeans to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Regular Fit Straight Jeans to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][2]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Regular Fit Straight Jeans to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Grunt Blue Slim Fit Jeans to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][3]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Grunt Blue Slim Fit Jeans to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Rose Pink Embroidered Maxi Dress to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][4]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Rose Pink Embroidered Maxi Dress to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Cotton Silk Hand Block Print Saree to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][5]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Cotton Silk Hand Block Print Saree to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Rust Red Linen Saree to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][6]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Rust Red Linen Saree to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Beautiful Peacock Blue Cotton Linen Saree to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][7]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Beautiful Peacock Blue Cotton Linen Saree to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Lace Top For Women to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][8]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Lace Top For Women to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add GRAPHIC DESIGN MEN T SHIRT - BLUE to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][9]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add GRAPHIC DESIGN MEN T SHIRT - BLUE to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to navigate back to the home page after submission.",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//a[@href='/' and contains(@class, 'btn-success')]",
-                    "step_name": "Return to Home page after submission",
-                    "error": false
-                },
-                {
-                    "type": "link",
-                    "request_description": "Link to return to the home page after submission.",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//*[@class='nav navbar-nav']/li[1]/a",
-                    "step_name": "Returning to Home page after submission.",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add the product to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//a[@class='btn btn-default add-to-cart' and @data-product-id='1']",
-                    "step_name": "Add Blue Top to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add the product to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//a[@class='btn btn-default add-to-cart' and @data-product-id='2']",
-                    "step_name": "Add Men Tshirt to cart",
-                    "error": false
-                },
-                {
-                    "type": "link",
-                    "request_description": "Link to view the cart after adding products",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//a[contains(text(), 'View Cart')]",
-                    "step_name": "View cart after adding products",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to continue shopping after adding a product to the cart.",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//button[contains(@class, 'close-modal')]",
-                    "step_name": "Return to Home page after submission.",
-                    "error": false
-                },
-                {
-                    "type": "link",
-                    "request_description": "Link to view the cart after adding a product.",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//a[contains(text(), 'View Cart')]",
-                    "step_name": "Return to Home page after submission.",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to navigate to the Test Cases page.",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//a[@class='test_cases_list']/button",
-                    "step_name": "Navigate to Test Cases",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to navigate to the APIs list page.",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//a[@class='apis_list']/button",
-                    "step_name": "Navigate to APIs list",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Soft Stretch Jeans to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][1]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Soft Stretch Jeans to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Regular Fit Straight Jeans to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][2]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Regular Fit Straight Jeans to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Grunt Blue Slim Fit Jeans to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][3]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Grunt Blue Slim Fit Jeans to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Rose Pink Embroidered Maxi Dress to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][4]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Rose Pink Embroidered Maxi Dress to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Cotton Silk Hand Block Print Saree to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][5]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Cotton Silk Hand Block Print Saree to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Rust Red Linen Saree to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][6]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Rust Red Linen Saree to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Beautiful Peacock Blue Cotton Linen Saree to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][7]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Beautiful Peacock Blue Cotton Linen Saree to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Lace Top For Women to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][8]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Lace Top For Women to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add GRAPHIC DESIGN MEN T SHIRT - BLUE to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][9]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add GRAPHIC DESIGN MEN T SHIRT - BLUE to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to navigate back to the home page after submission.",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//a[@href='/' and contains(@class, 'btn-success')]",
-                    "step_name": "Return to Home page after submission",
-                    "error": false
-                },
-                {
-                    "type": "link",
-                    "request_description": "Link to return to the home page after submission.",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//*[@class='nav navbar-nav']/li[1]/a",
-                    "step_name": "Returning to Home page after submission.",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add the product to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//a[@class='btn btn-default add-to-cart' and @data-product-id='1']",
-                    "step_name": "Add Blue Top to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add the product to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//a[@class='btn btn-default add-to-cart' and @data-product-id='2']",
-                    "step_name": "Add Men Tshirt to cart",
-                    "error": false
-                },
-                {
-                    "type": "link",
-                    "request_description": "Link to view the cart after adding products",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//a[contains(text(), 'View Cart')]",
-                    "step_name": "View cart after adding products",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to continue shopping after adding a product to the cart.",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//button[contains(@class, 'close-modal')]",
-                    "step_name": "Return to Home page after submission.",
-                    "error": false
-                },
-                {
-                    "type": "link",
-                    "request_description": "Link to view the cart after adding a product.",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//a[contains(text(), 'View Cart')]",
-                    "step_name": "Return to Home page after submission.",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to navigate to the Test Cases page.",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//a[@class='test_cases_list']/button",
-                    "step_name": "Navigate to Test Cases",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to navigate to the APIs list page.",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//a[@class='apis_list']/button",
-                    "step_name": "Navigate to APIs list",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Soft Stretch Jeans to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][1]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Soft Stretch Jeans to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Regular Fit Straight Jeans to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][2]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Regular Fit Straight Jeans to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Grunt Blue Slim Fit Jeans to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][3]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Grunt Blue Slim Fit Jeans to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Rose Pink Embroidered Maxi Dress to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][4]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Rose Pink Embroidered Maxi Dress to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Cotton Silk Hand Block Print Saree to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][5]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Cotton Silk Hand Block Print Saree to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Rust Red Linen Saree to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][6]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Rust Red Linen Saree to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Beautiful Peacock Blue Cotton Linen Saree to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][7]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Beautiful Peacock Blue Cotton Linen Saree to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Lace Top For Women to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][8]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Lace Top For Women to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add GRAPHIC DESIGN MEN T SHIRT - BLUE to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][9]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add GRAPHIC DESIGN MEN T SHIRT - BLUE to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to navigate back to the home page after submission.",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//a[@href='/' and contains(@class, 'btn-success')]",
-                    "step_name": "Return to Home page after submission",
-                    "error": false
-                },
-                {
-                    "type": "link",
-                    "request_description": "Link to return to the home page after submission.",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//*[@class='nav navbar-nav']/li[1]/a",
-                    "step_name": "Returning to Home page after submission.",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add the product to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//a[@class='btn btn-default add-to-cart' and @data-product-id='1']",
-                    "step_name": "Add Blue Top to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add the product to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//a[@class='btn btn-default add-to-cart' and @data-product-id='2']",
-                    "step_name": "Add Men Tshirt to cart",
-                    "error": false
-                },
-                {
-                    "type": "link",
-                    "request_description": "Link to view the cart after adding products",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//a[contains(text(), 'View Cart')]",
-                    "step_name": "View cart after adding products",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to continue shopping after adding a product to the cart.",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//button[contains(@class, 'close-modal')]",
-                    "step_name": "Return to Home page after submission.",
-                    "error": false
-                },
-                {
-                    "type": "link",
-                    "request_description": "Link to view the cart after adding a product.",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//a[contains(text(), 'View Cart')]",
-                    "step_name": "Return to Home page after submission.",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to navigate to the Test Cases page.",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//a[@class='test_cases_list']/button",
-                    "step_name": "Navigate to Test Cases",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to navigate to the APIs list page.",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//a[@class='apis_list']/button",
-                    "step_name": "Navigate to APIs list",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Soft Stretch Jeans to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][1]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Soft Stretch Jeans to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Regular Fit Straight Jeans to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][2]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Regular Fit Straight Jeans to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Grunt Blue Slim Fit Jeans to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][3]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Grunt Blue Slim Fit Jeans to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Rose Pink Embroidered Maxi Dress to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][4]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Rose Pink Embroidered Maxi Dress to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Cotton Silk Hand Block Print Saree to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][5]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Cotton Silk Hand Block Print Saree to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Rust Red Linen Saree to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][6]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Rust Red Linen Saree to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Beautiful Peacock Blue Cotton Linen Saree to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][7]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Beautiful Peacock Blue Cotton Linen Saree to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add Lace Top For Women to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][8]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add Lace Top For Women to cart",
-                    "error": false
-                },
-                {
-                    "type": "button",
-                    "request_description": "Button to add GRAPHIC DESIGN MEN T SHIRT - BLUE to the cart",
-                    "identifier_type": "XPath",
-                    "identifier_tracking": "//div[@class='productinfo text-center'][9]//a[contains(@class, 'add-to-cart')]",
-                    "step_name": "Add GRAPHIC DESIGN MEN T SHIRT - BLUE to cart",
-                    "error": false
+            "purpose": "Return to the home page after submitting the contact form.",
+            "execution_steps": [
+                {
+                    "step": "Verify that landed to home page successfully",
+                    "extracted_data": [
+                        {
+                            "type": "link",
+                            "request_description": "Link to navigate back to the home page",
+                            "identifier_type": "XPath",
+                            "identifier_tracking": "//*[@class='nav navbar-nav']/li[1]/a"
+                        },
+                        {
+                            "type": "link",
+                            "request_description": "Link to return to the home page after submitting the contact form.",
+                            "identifier_type": "XPath",
+                            "identifier_tracking": "//*[@class='header-middle']//ul/li[1]/a"
+                        },
+                        {
+                            "type": "link",
+                            "request_description": "Link to navigate back to the home page",
+                            "identifier_type": "XPath",
+                            "identifier_tracking": "//*[@class='nav navbar-nav']/li[1]/a"
+                        },
+                        {
+                            "type": "link",
+                            "request_description": "Link to return to the home page after submitting the contact form.",
+                            "identifier_type": "XPath",
+                            "identifier_tracking": "//*[@id='header']/div[2]/div/div/ul/li[1]/a"
+                        }
+                    ]
                 }
             ],
             "token": {
-                "completion_tokens": 8141,
-                "prompt_tokens": 54388,
-                "total_tokens": 62529,
+                "completion_tokens": 322,
+                "prompt_tokens": 22175,
+                "total_tokens": 22497,
                 "completion_tokens_details": null,
                 "prompt_tokens_details": null
             },
             "dispatcher": {
-                "memory_usage_MB": 0.359375,
-                "peak_memory_MB": 0.359375,
-                "start_time": "2025-04-20T15:27:51.342571",
-                "end_time": "2025-04-20T15:28:26.074188",
-                "duration_seconds": 34.731617
+                "memory_usage_MB": 0.42578125,
+                "peak_memory_MB": 0.42578125,
+                "start_time": "2026-01-26T00:48:28.894915",
+                "end_time": "2026-01-26T00:48:34.300479",
+                "duration_seconds": 5.405564
             }
         }
     ]
