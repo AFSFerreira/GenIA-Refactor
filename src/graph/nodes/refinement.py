@@ -6,8 +6,10 @@ from langchain_core.messages import AIMessage
 
 from src.graph.agents.refiner import refine_extracted_elements
 from src.graph.state import GenIAState
-from src.tools.file_system import map_extracted_data_to_steps
-from src.tools.files import load_prompt
+from src.models.extracted_module_model import ExtractedModuleModel
+from src.models.extraction_result import ExtractionResultModel
+from src.tools.load_prompt import load_prompt
+from src.tools.parser import map_extracted_data_to_steps
 from src.utils.enums import GenIAStateStatus
 from src.utils.logger import get_logger
 
@@ -32,8 +34,8 @@ async def refinement_node(state: GenIAState) -> GenIAState:
     
     state["execution_status"] = GenIAStateStatus.REFINING
     
-    refined_test_case = state["refined_test_case"]
-    extracted_test_case = state["extracted_test_case"]
+    refined_test_case = state.get("refined_test_case")
+    extracted_test_case = state.get("extracted_test_case")
     
     if refined_test_case is None:
         raise ValueError("refined_test_case is required for refinement")
@@ -44,39 +46,43 @@ async def refinement_node(state: GenIAState) -> GenIAState:
     module_idx = state["current_module_index"]
     total_modules = len(refined_test_case.modules)
     
-    current_module = refined_test_case.modules[module_idx]
-    module_with_extracted = extracted_test_case["modules"][module_idx]
+    if state.get("refined_extracted_test_case") is None:
+        state["refined_extracted_test_case"] = extracted_test_case.model_copy(deep=True)
     
-    logger.info(f"Refining module {module_idx + 1}/{total_modules}: {current_module.url}")
+    refined_extracted_test_case = state.get("refined_extracted_test_case")
+    
+    if refined_extracted_test_case is None:
+        raise ValueError("refined_extracted_test_case is required for refinement")
+
+    current_module_extracted = refined_extracted_test_case.modules[module_idx]
+    
+    logger.info(f"Refining module {module_idx + 1}/{total_modules}: {current_module_extracted.url}")
     
     # Load refinement prompt template
     prompt = load_prompt(
         "agents/langgraph/level2_refinement.jinja2",
-        module_with_extracted_data=json.dumps(module_with_extracted, indent=2)
+        module_with_extracted_data=json.dumps(
+            current_module_extracted.model_dump(exclude_none=True, mode='json'), 
+            indent=2
+        )
     )
     
     # Refine elements using refiner agent
-    result = await refine_extracted_elements(
-        url=current_module.url,
+    refinement_result: ExtractionResultModel = await refine_extracted_elements(
+        url=current_module_extracted.url,
         instruction=prompt
     )
     
-    # Update refined_extracted_test_case with results
-    refined_extracted_test_case = state["refined_extracted_test_case"]
-    
-    if refined_extracted_test_case is None:
-        raise ValueError("refined_extracted_test_case should have been initialized")
-    
-    refined_extracted_test_case["modules"][module_idx]["extracted_data"] = result["extracted_content"]
-    refined_extracted_test_case["modules"][module_idx]["token"] = result["token_usage"]
-    refined_extracted_test_case["modules"][module_idx]["dispatcher"] = result["dispatcher_data"]
+    current_module_extracted.token = refinement_result.token_usage
+    current_module_extracted.dispatcher = refinement_result.dispatcher_data
     
     # Map extracted data to execution steps
-    refined_extracted_test_case["modules"][module_idx] = map_extracted_data_to_steps(
-        refined_extracted_test_case["modules"][module_idx]
+    current_module_extracted = map_extracted_data_to_steps(
+        module_model=current_module_extracted,
+        extracted_elements=refinement_result.extracted_content
     )
     
-    state["refined_extracted_test_case"] = refined_extracted_test_case
+    refined_extracted_test_case.modules[module_idx] = current_module_extracted
     
     # Move to next module
     state["current_module_index"] = module_idx + 1
@@ -90,9 +96,10 @@ async def refinement_node(state: GenIAState) -> GenIAState:
         state["execution_status"] = GenIAStateStatus.EXPLORING
     
     new_message = AIMessage(
-        content=f"Elements refined for module {module_idx + 1}/{total_modules}: {current_module.url}",
+        content=f"Elements refined for module {module_idx + 1}/{total_modules}: {current_module_extracted.url}",
         name="refinement",
     )
+    
     state["messages"].append(new_message)
     
     logger.info(f"Refinement completed for module {module_idx + 1}")

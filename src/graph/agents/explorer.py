@@ -1,7 +1,6 @@
 """
 Explorer Agent - Responsible for extracting HTML elements from web pages.
 """
-from typing import Any, Dict, List
 
 from playwright._impl._errors import TargetClosedError
 from tenacity import (
@@ -12,7 +11,9 @@ from tenacity import (
 )
 
 from src.env import env_variables
+from src.env.index import EnvironmentVariables
 from src.models import ExtractedElement
+from src.models.extraction_result import ExtractionResultModel
 from src.tools.browser import BrowserTool
 from src.utils.logger import get_logger
 
@@ -27,7 +28,7 @@ logger = get_logger(__name__)
 async def extract_elements_from_page(
     url: str,
     instruction: str,
-) -> Dict[str, Any]:
+) -> ExtractionResultModel:
     """
     Extract HTML elements from a web page using LLM-based extraction.
     
@@ -48,9 +49,13 @@ async def extract_elements_from_page(
             url=url,
             instruction=instruction,
             schema=ExtractedElement.model_json_schema(),
-            temperature=0.0
+            temperature=EnvironmentVariables.ai_agents_temperature
         )
     
     logger.info(f"Extraction completed for: {url}")
     
-    return result
+    return ExtractionResultModel(
+        extracted_content=result["extracted_content"],
+        token_usage=result["token_usage"],
+        dispatcher_data=result["dispatcher_data"]
+    )

@@ -4,14 +4,13 @@ Planner Agent - Responsible for planning and structuring the test case.
 from tenacity import retry, stop_after_attempt, wait_exponential
 from src.env import env_variables
 
-from openai import Client
-
+from src.env.index import EnvironmentVariables
 from src.models.test_case import TestCaseModel
 from src.tools.clients.gen_ia_client import GenIAClient
 
 
 @retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=4, max=10))
-def generate_test_case_refactor(client: Client, prompt: str) -> TestCaseModel | None:
+def generate_test_case_refactor(client: GenIAClient, prompt: str) -> TestCaseModel | None:
     """
     Restructure and refactor a test case using LLM with structured output.
     
@@ -20,7 +19,7 @@ def generate_test_case_refactor(client: Client, prompt: str) -> TestCaseModel | 
     TestCaseModel object.
     
     Args:
-        client: OpenAI client instance (will be overridden by GenIAClient).
+        client: OpenAI client instance (will be overridden by GenIAClientProvider).
         prompt: The system prompt containing test case restructuring instructions.
         
     Returns:
@@ -29,8 +28,6 @@ def generate_test_case_refactor(client: Client, prompt: str) -> TestCaseModel | 
     Raises:
         Exception: After 3 retry attempts with exponential backoff.
     """
-    client = GenIAClient.get_client()
-    
     completion = client.beta.chat.completions.parse(
         model=env_variables.ai_agent_model,
         messages=[
@@ -40,8 +37,8 @@ def generate_test_case_refactor(client: Client, prompt: str) -> TestCaseModel | 
             }
         ],
         response_format=TestCaseModel,
-        temperature=0.0,
-        n=1,
+        temperature=EnvironmentVariables.ai_agents_temperature,
+        n=EnvironmentVariables.ai_agents_responses_quantity,
     )
     
-    return completion.choices[0].message.parsed
+    return completion.choices[-1].message.parsed

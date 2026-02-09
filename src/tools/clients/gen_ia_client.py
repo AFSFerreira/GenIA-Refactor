@@ -3,19 +3,20 @@ from openai import Client
 
 from src.env import env_variables
 
+type GenIAClient = Client
 
-class GenIAClient:
+class GenIAClientProvider:
     """
-    Singleton client for OpenAI API interactions.
+    Singleton client for API interactions.
     
-    This class provides a single shared OpenAI client instance
+    This class provides a single shared client instance
     across the entire application to avoid creating multiple connections.
     """
     
-    _client: Client | None = None
+    _client: GenIAClient | None = None
 
     @classmethod
-    def get_client(cls) -> Client:
+    def get_client(cls) -> GenIAClient:
         """
         Get or create the OpenAI client instance.
         

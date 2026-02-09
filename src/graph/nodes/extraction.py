@@ -6,8 +6,11 @@ from langchain_core.messages import AIMessage
 
 from src.graph.agents.explorer import extract_elements_from_page
 from src.graph.state import GenIAState
-from src.tools.file_system import map_extracted_data_to_steps
-from src.tools.files import load_prompt
+from src.models.extracted_module_model import ExtractedModuleModel
+from src.models.extracted_test_case_model import ExtractedTestCaseModel
+from src.models.extraction_result import ExtractionResultModel
+from src.tools.load_prompt import load_prompt
+from src.tools.parser import map_extracted_data_to_steps
 from src.utils.enums import GenIAStateStatus
 from src.utils.logger import get_logger
 
@@ -32,7 +35,7 @@ async def extraction_node(state: GenIAState) -> GenIAState:
     
     state["execution_status"] = GenIAStateStatus.EXPLORING
     
-    refined_test_case = state["refined_test_case"]
+    refined_test_case = state.get("refined_test_case")
     
     if refined_test_case is None:
         raise ValueError("refined_test_case is required for extraction")
@@ -40,7 +43,7 @@ async def extraction_node(state: GenIAState) -> GenIAState:
     module_idx = state["current_module_index"]
     total_modules = len(refined_test_case.modules)
     
-    # Check if all modules have been processed
+    # Check if all modules have been processed and refined
     if module_idx >= total_modules:
         logger.info("All modules extracted, moving to coding phase")
         state["execution_status"] = GenIAStateStatus.CODING
@@ -48,49 +51,59 @@ async def extraction_node(state: GenIAState) -> GenIAState:
     
     # Initialize extracted_test_case if not present
     if state.get("extracted_test_case") is None:
-        state["extracted_test_case"] = refined_test_case.model_dump()
+        initial_modules = [
+            ExtractedModuleModel(**module.model_dump()) 
+            for module in refined_test_case.modules
+        ]
+        
+        state["extracted_test_case"] = ExtractedTestCaseModel(
+            **refined_test_case.model_dump(exclude={"modules"}),
+            modules=initial_modules
+        )
     
-    # Initialize refined_extracted_test_case if not present
-    if state.get("refined_extracted_test_case") is None:
-        state["refined_extracted_test_case"] = refined_test_case.model_dump()
-    
-    current_module = refined_test_case.modules[module_idx]
-    logger.info(f"Processing module {module_idx + 1}/{total_modules}: {current_module.url}")
+    current_module_model = refined_test_case.modules[module_idx]
+    logger.info(f"Processing module {module_idx + 1}/{total_modules}: {current_module_model.url}")
     
     # Load extraction prompt template
     prompt = load_prompt(
         "agents/langgraph/level2_extraction.jinja2",
-        module=json.dumps(current_module.model_dump(), indent=2)
+        module=json.dumps(current_module_model.model_dump(exclude_none=True, mode='json'), indent=4)
     )
     
     # Extract elements using explorer agent
-    result = await extract_elements_from_page(
-        url=current_module.url,
+    extraction_result: ExtractionResultModel = await extract_elements_from_page(
+        url=current_module_model.url,
         instruction=prompt
     )
     
-    # Update extracted_test_case with results
-    extracted_test_case = state["extracted_test_case"]
-    
-    if extracted_test_case is None:
-        raise ValueError("extracted_test_case should have been initialized")
-    
-    extracted_test_case["modules"][module_idx]["extracted_data"] = result["extracted_content"]
-    extracted_test_case["modules"][module_idx]["token"] = result["token_usage"]
-    extracted_test_case["modules"][module_idx]["dispatcher"] = result["dispatcher_data"]
-    
+    extracted_module = ExtractedModuleModel(
+        **current_module_model.model_dump(),
+        token=extraction_result.token_usage,
+        dispatcher=extraction_result.dispatcher_data
+    )
+
     # Map extracted data to execution steps
-    extracted_test_case["modules"][module_idx] = map_extracted_data_to_steps(
-        extracted_test_case["modules"][module_idx]
+    extracted_module = map_extracted_data_to_steps(
+        extracted_module,
+        extracted_elements=extraction_result.extracted_content,
     )
     
-    state["extracted_test_case"] = extracted_test_case
+    extracted_test_case = state.get("extracted_test_case")
+    
+    if extracted_test_case is None:
+        raise ValueError("extracted_test_case is required for extraction")
+    
+    extracted_test_case.modules[module_idx] = extracted_module
+    
+    if state.get("refined_extracted_test_case") is None:
+        # TODO: Fazer deep copy aqui
+        state["refined_extracted_test_case"] = state["extracted_test_case"]
     
     # Transition to refinement phase
     state["execution_status"] = GenIAStateStatus.REFINING
     
     new_message = AIMessage(
-        content=f"Elements extracted from module {module_idx + 1}/{total_modules}: {current_module.url}",
+        content=f"Elements extracted from module {module_idx + 1}/{total_modules}: {current_module_model.url}",
         name="extraction",
     )
     

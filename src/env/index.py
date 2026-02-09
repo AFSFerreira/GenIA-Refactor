@@ -9,7 +9,6 @@ from openai.types import ChatModel
 # Get the project root directory (parent of src/)
 PROJECT_ROOT = Path(__file__).parent.parent.parent
 
-# TODO: Definir variáveis de ambiente de temperatura de LLM
 @dataclass
 class EnvironmentVariables:
   """Strongly-typed container for the environment variables this project needs."""
@@ -18,6 +17,8 @@ class EnvironmentVariables:
   test_cases_examples_folder: Path = field(default_factory=lambda: PROJECT_ROOT / "TestCaseExamples")
   test_cases_output_folder: Path = field(default_factory=lambda: PROJECT_ROOT / "TestCases")
   ai_agent_model: ChatModel = "gpt-4o-mini"
+  ai_agents_temperature: float = 0.0
+  ai_agents_responses_quantity: int = 1
 
 
 class MissingConfigurationError(Exception):

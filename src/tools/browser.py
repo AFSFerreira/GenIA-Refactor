@@ -4,7 +4,7 @@ Browser tool for web crawling and element extraction using crawl4ai.
 import asyncio
 import json
 from datetime import datetime
-from typing import Any, ClassVar, Dict, List, Optional, cast
+from typing import Any, ClassVar, Dict, List, Optional
 
 from crawl4ai import (
     AsyncWebCrawler,
