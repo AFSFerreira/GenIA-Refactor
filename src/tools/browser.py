@@ -97,9 +97,6 @@ class BrowserTool:
             ),
             schema=schema,
             extraction_type="schema",
-            # 🔥 CORREÇÃO 1: Use 'markdown' ou 'fit_markdown'. 
-            # HTML bruto quebra o contexto do GPT-4o-mini em sites grandes, 
-            # fazendo o crawl4ai retornar vazio/erro silencioso.
             input_format="markdown", 
             extra_args={"temperature": temperature},
             instruction=instruction
@@ -127,8 +124,15 @@ class BrowserTool:
         dispatcher_data: Dict[str, Any] = {}
         
         result_list: List[Any] = []
-        async for r in results:  # type: ignore[union-attr]
-            result_list.append(r)
+        
+        if isinstance(results, list):
+            result_list = results
+        
+        elif hasattr(results, '__aiter__'):
+            async for r in results: # type: ignore[union-attr]
+                result_list.append(r)
+        else:
+            result_list = [results]
         
         for result in result_list:
             if result.success:
@@ -141,9 +145,6 @@ class BrowserTool:
                     logger.error(f"Failed to parse JSON content from {url}")
                     raw_content = []
 
-                # 🔥 CORREÇÃO 2: Lógica de Unwrapping (Desembrulho)
-                # O Schema ExtractionContainer retorna {"elements": [...]}. 
-                # Precisamos extrair a lista de dentro dele.
                 if isinstance(raw_content, dict) and "elements" in raw_content:
                     extracted_content = raw_content["elements"]
                 elif isinstance(raw_content, list):
