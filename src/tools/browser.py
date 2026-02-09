@@ -171,7 +171,17 @@ class BrowserTool:
                 logger.debug(f"Extraction successful for {url}")
                 logger.debug(f"LLM usages: {llm_strategy.usages}")
                 
-                extracted_content = json.loads(result.extracted_content)
+                raw_json = json.loads(result.extracted_content)
+        
+                if isinstance(raw_json, dict) and "elements" in raw_json:
+                    extracted_content = raw_json["elements"]
+                elif isinstance(raw_json, list):
+                    extracted_content = raw_json
+                else:
+                    # Fallback para caso o LLM retorne apenas um objeto solto
+                    extracted_content = [raw_json]
+                
+                # extracted_content = json.loads(result.extracted_content)
                 
                 usage = llm_strategy.total_usage
                 token_usage = {

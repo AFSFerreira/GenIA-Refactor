@@ -13,6 +13,7 @@ from tenacity import (
 from src.env import env_variables
 from src.env.index import EnvironmentVariables
 from src.models import ExtractedElement
+from src.models.extraction_container import ExtractionContainer
 from src.models.extraction_result import ExtractionResultModel
 from src.tools.browser import BrowserTool
 from src.utils.logger import get_logger
@@ -48,7 +49,7 @@ async def extract_elements_from_page(
         result = await browser.extract_elements(
             url=url,
             instruction=instruction,
-            schema=ExtractedElement.model_json_schema(),
+            schema=ExtractionContainer.model_json_schema(),
             temperature=EnvironmentVariables.ai_agents_temperature
         )
     

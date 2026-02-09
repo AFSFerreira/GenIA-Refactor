@@ -96,8 +96,7 @@ async def extraction_node(state: GenIAState) -> GenIAState:
     extracted_test_case.modules[module_idx] = extracted_module
     
     if state.get("refined_extracted_test_case") is None:
-        # TODO: Fazer deep copy aqui
-        state["refined_extracted_test_case"] = state["extracted_test_case"]
+        state["refined_extracted_test_case"] = extracted_test_case.model_copy(deep=True)
     
     # Transition to refinement phase
     state["execution_status"] = GenIAStateStatus.REFINING

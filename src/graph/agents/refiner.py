@@ -8,6 +8,7 @@ from playwright._impl._errors import TargetClosedError
 
 from src.env.index import EnvironmentVariables
 from src.models.extracted_element import ExtractedElement # Import correto
+from src.models.extraction_container import ExtractionContainer
 from src.models.extraction_result import ExtractionResultModel # Novo retorno
 from src.tools.browser import BrowserTool
 from src.utils.logger import get_logger
@@ -29,7 +30,7 @@ async def refine_extracted_elements(
         result = await browser.extract_elements(
             url=url,
             instruction=instruction,
-            schema=ExtractedElement.model_json_schema(),
+            schema=ExtractionContainer.model_json_schema(),
             temperature=EnvironmentVariables.ai_agents_temperature
         )
     
