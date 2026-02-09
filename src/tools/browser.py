@@ -4,7 +4,7 @@ Browser tool for web crawling and element extraction using crawl4ai.
 import asyncio
 import json
 from datetime import datetime
-from typing import Any, ClassVar, Dict, List, Optional
+from typing import Any, ClassVar, Dict, List, Optional, Union
 
 from crawl4ai import (
     AsyncWebCrawler,
@@ -23,12 +23,7 @@ logger = get_logger(__name__)
 
 
 class BrowserManager:
-    """
-    Singleton manager for the browser crawler instance.
-    
-    Ensures only one AsyncWebCrawler instance is used throughout the application.
-    """
-    
+    """Singleton manager for the browser crawler instance."""
     _instance: ClassVar[Optional["BrowserManager"]] = None
     _crawler: Optional[AsyncWebCrawler] = None
     _lock: ClassVar[asyncio.Lock] = asyncio.Lock()
@@ -40,7 +35,6 @@ class BrowserManager:
         return cls._instance
     
     async def get_crawler(self) -> AsyncWebCrawler:
-        """Get the shared crawler instance, creating it if needed."""
         async with self._lock:
             if self._crawler is None:
                 logger.info("Creating new AsyncWebCrawler instance")
@@ -51,12 +45,10 @@ class BrowserManager:
             return self._crawler
     
     async def release(self) -> None:
-        """Release reference to the crawler."""
         async with self._lock:
             self._in_use = False
     
     async def close(self) -> None:
-        """Close the crawler if not in use."""
         async with self._lock:
             if self._crawler is not None and not self._in_use:
                 logger.info("Closing AsyncWebCrawler instance")
@@ -67,37 +59,22 @@ class BrowserManager:
                 finally:
                     self._crawler = None
 
-
-# Global browser manager instance
 _browser_manager = BrowserManager()
 
 
 class BrowserTool:
-    """
-    Tool for extracting HTML elements from web pages using LLM-based extraction.
-    
-    Uses crawl4ai to navigate pages and extract structured data based on
-    provided instructions and schemas.
-    """
+    """Tool for extracting HTML elements from web pages using LLM-based extraction."""
     
     def __init__(self, api_key: Optional[str] = None):
-        """
-        Initialize the browser tool.
-        
-        Args:
-            api_key: OpenAI API key. If not provided, uses environment variable.
-        """
         self.api_key = api_key or env_variables.api_key_string
         self.crawler: Optional[AsyncWebCrawler] = None
         self.dispatcher = MemoryAdaptiveDispatcher()
     
     async def __aenter__(self):
-        """Async context manager entry."""
         self.crawler = await _browser_manager.get_crawler()
         return self
     
     async def __aexit__(self, exc_type, exc_val, exc_tb):
-        """Async context manager exit."""
         await _browser_manager.release()
     
     async def extract_elements(
@@ -108,22 +85,6 @@ class BrowserTool:
         temperature: float = 0.0,
         model: str = "openai/gpt-4o-mini"
     ) -> Dict[str, Any]:
-        """
-        Extract HTML elements from a URL based on the provided instruction.
-        
-        Args:
-            url: The URL to crawl and extract elements from.
-            instruction: LLM instruction for extraction.
-            schema: JSON schema for the expected output format.
-            temperature: LLM temperature setting.
-            model: LLM model to use for extraction.
-            
-        Returns:
-            Dictionary containing:
-                - extracted_content: List of extracted elements
-                - token_usage: Token usage statistics
-                - dispatcher_data: Dispatcher performance data
-        """
         if not self.crawler:
             raise RuntimeError("BrowserTool must be used as async context manager")
         
@@ -136,7 +97,10 @@ class BrowserTool:
             ),
             schema=schema,
             extraction_type="schema",
-            input_format="html",
+            # 🔥 CORREÇÃO 1: Use 'markdown' ou 'fit_markdown'. 
+            # HTML bruto quebra o contexto do GPT-4o-mini em sites grandes, 
+            # fazendo o crawl4ai retornar vazio/erro silencioso.
+            input_format="markdown", 
             extra_args={"temperature": temperature},
             instruction=instruction
         )
@@ -145,7 +109,9 @@ class BrowserTool:
             verbose=True,
             word_count_threshold=1,
             extraction_strategy=llm_strategy,
-            cache_mode=CacheMode.BYPASS
+            cache_mode=CacheMode.BYPASS,
+            # Opcional: Adicionar espera para carregamento de JS
+            wait_for="body" 
         )
         
         results = await self.crawler.arun_many(
@@ -155,54 +121,58 @@ class BrowserTool:
         )
         
         extracted_content: List[Dict[str, Any]] = []
-        token_usage: Dict[str, Any] = {}
+        token_usage: Dict[str, Any] = {
+            "completion_tokens": 0, "prompt_tokens": 0, "total_tokens": 0
+        }
         dispatcher_data: Dict[str, Any] = {}
         
-        # Handle results from arun_many - can be async generator or list-like
         result_list: List[Any] = []
-        if hasattr(results, '__aiter__'):
-            async for r in results:  # type: ignore
-                result_list.append(r)
-        else:
-            result_list = list(results)  # type: ignore
+        async for r in results:  # type: ignore[union-attr]
+            result_list.append(r)
         
         for result in result_list:
             if result.success:
                 logger.debug(f"Extraction successful for {url}")
-                logger.debug(f"LLM usages: {llm_strategy.usages}")
                 
-                raw_json = json.loads(result.extracted_content)
-        
-                if isinstance(raw_json, dict) and "elements" in raw_json:
-                    extracted_content = raw_json["elements"]
-                elif isinstance(raw_json, list):
-                    extracted_content = raw_json
+                # Parse seguro do JSON
+                try:
+                    raw_content = json.loads(result.extracted_content)
+                except json.JSONDecodeError:
+                    logger.error(f"Failed to parse JSON content from {url}")
+                    raw_content = []
+
+                # 🔥 CORREÇÃO 2: Lógica de Unwrapping (Desembrulho)
+                # O Schema ExtractionContainer retorna {"elements": [...]}. 
+                # Precisamos extrair a lista de dentro dele.
+                if isinstance(raw_content, dict) and "elements" in raw_content:
+                    extracted_content = raw_content["elements"]
+                elif isinstance(raw_content, list):
+                    extracted_content = raw_content
                 else:
-                    # Fallback para caso o LLM retorne apenas um objeto solto
-                    extracted_content = [raw_json]
+                    # Fallback para caso venha um objeto solto
+                    extracted_content = [raw_content] if raw_content else []
+
+                # Captura de Token Usage (garante que não quebre se vier null)
+                usage = getattr(llm_strategy, 'total_usage', None) or getattr(result, 'usage', None)
                 
-                # extracted_content = json.loads(result.extracted_content)
+                if usage:
+                    token_usage = {
+                        "completion_tokens": getattr(usage, 'completion_tokens', 0),
+                        "prompt_tokens": getattr(usage, 'prompt_tokens', 0),
+                        "total_tokens": getattr(usage, 'total_tokens', 0),
+                    }
                 
-                usage = llm_strategy.total_usage
-                token_usage = {
-                    "completion_tokens": usage.completion_tokens,
-                    "prompt_tokens": usage.prompt_tokens,
-                    "total_tokens": usage.total_tokens,
-                    "completion_tokens_details": usage.completion_tokens_details,
-                    "prompt_tokens_details": usage.prompt_tokens_details
-                }
-                
-                start_time = datetime.fromtimestamp(result.dispatch_result.start_time)
-                end_time = datetime.fromtimestamp(result.dispatch_result.end_time)
-                dispatcher_data = {
-                    "memory_usage_MB": result.dispatch_result.memory_usage,
-                    "peak_memory_MB": result.dispatch_result.peak_memory,
-                    "start_time": start_time.isoformat(),
-                    "end_time": end_time.isoformat(),
-                    "duration_seconds": (end_time - start_time).total_seconds()
-                }
+                # Captura de Dispatcher Data
+                if hasattr(result, 'dispatch_result'):
+                    start_time = datetime.fromtimestamp(result.dispatch_result.start_time)
+                    end_time = datetime.fromtimestamp(result.dispatch_result.end_time)
+                    dispatcher_data = {
+                        "memory_usage_MB": result.dispatch_result.memory_usage,
+                        "peak_memory_MB": result.dispatch_result.peak_memory,
+                        "duration_seconds": (end_time - start_time).total_seconds()
+                    }
             else:
-                logger.warning(f"Extraction failed for {url}")
+                logger.warning(f"Extraction failed for {url}. Error: {result.error_message}")
         
         return {
             "extracted_content": extracted_content,
