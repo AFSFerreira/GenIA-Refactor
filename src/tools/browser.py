@@ -117,6 +117,10 @@ class BrowserTool:
             dispatcher=self.dispatcher
         )
         
+        print("\n\n\n\n")
+        print(results)
+        print("\n\n\n\n")
+        
         extracted_content: List[Dict[str, Any]] = []
         token_usage: Dict[str, Any] = {
             "completion_tokens": 0, "prompt_tokens": 0, "total_tokens": 0
@@ -138,43 +142,40 @@ class BrowserTool:
             if result.success:
                 logger.debug(f"Extraction successful for {url}")
                 
-                # Parse seguro do JSON
                 try:
                     raw_content = json.loads(result.extracted_content)
-                except json.JSONDecodeError:
-                    logger.error(f"Failed to parse JSON content from {url}")
-                    raw_content = []
-
-                if isinstance(raw_content, dict) and "elements" in raw_content:
-                    extracted_content = raw_content["elements"]
-                elif isinstance(raw_content, list):
-                    extracted_content = raw_content
-                else:
-                    # Fallback para caso venha um objeto solto
-                    extracted_content = [raw_content] if raw_content else []
-
-                # Captura de Token Usage (garante que não quebre se vier null)
-                usage = getattr(llm_strategy, 'total_usage', None) or getattr(result, 'usage', None)
-                
-                if usage:
-                    token_usage = {
-                        "completion_tokens": getattr(usage, 'completion_tokens', 0),
-                        "prompt_tokens": getattr(usage, 'prompt_tokens', 0),
-                        "total_tokens": getattr(usage, 'total_tokens', 0),
-                    }
-                
-                # Captura de Dispatcher Data
-                if hasattr(result, 'dispatch_result'):
-                    start_time = datetime.fromtimestamp(result.dispatch_result.start_time)
-                    end_time = datetime.fromtimestamp(result.dispatch_result.end_time)
-                    dispatcher_data = {
-                        "memory_usage_MB": result.dispatch_result.memory_usage,
-                        "peak_memory_MB": result.dispatch_result.peak_memory,
-                        "duration_seconds": (end_time - start_time).total_seconds()
-                    }
+                    
+                    print("\n\n\n\n")
+                    print(raw_content)
+                    print("\n\n\n\n")
+                    
+                    if isinstance(raw_content, list):
+                        extracted_content = raw_content
+                    elif isinstance(raw_content, dict):
+                        found_list = False
+                        for key, value in raw_content.items():
+                            if isinstance(value, list):
+                                extracted_content = value
+                                found_list = True
+                                break
+                        
+                        if not found_list:
+                            extracted_content = [raw_content]
+                    else:
+                        extracted_content = []
+                        
+                except Exception as e:
+                    logger.error(f"Failed to parse JSON content: {e}")
+                    extracted_content = []
             else:
-                logger.warning(f"Extraction failed for {url}. Error: {result.error_message}")
-        
+                error_msg = result.error_message or "Unknown error"
+                
+                if "playwright install" in error_msg or "Executable doesn't exist" in error_msg:
+                    logger.critical("🚨 PLAYWRIGHT BROWSERS MISSING! Run 'playwright install' in your terminal.")
+                    raise RuntimeError(f"Critical Crawler Failure: {error_msg}")
+                
+                logger.warning(f"Extraction failed for {url}. Error: {error_msg}")
+                
         return {
             "extracted_content": extracted_content,
             "token_usage": token_usage,
