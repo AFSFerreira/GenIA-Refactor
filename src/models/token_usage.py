@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 # NOTE: Adicionar 'Field' posteriormente:
 class TokenUsageModel(BaseModel):
