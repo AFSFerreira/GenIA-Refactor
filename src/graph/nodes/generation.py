@@ -54,6 +54,7 @@ def generation_node(state: GenIAState) -> GenIAState:
         content="Robot Framework script generated successfully",
         name="generation",
     )
+    
     state["messages"].append(new_message)
     
     logger.info("Robot Framework script generated successfully")

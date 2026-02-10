@@ -25,8 +25,8 @@ def strip_markdown_code_fences(text: str) -> str:
     return cleaned
 
 def map_extracted_data_to_steps(
-  module_model: ExtractedModuleModel, 
-  extracted_elements: List[ExtractedElement]
+    module_model: ExtractedModuleModel,
+    extracted_elements: List[ExtractedElement]
 ) -> ExtractedModuleModel:
     matched_count = 0
 

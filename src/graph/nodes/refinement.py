@@ -46,9 +46,6 @@ async def refinement_node(state: GenIAState) -> GenIAState:
     module_idx = state["current_module_index"]
     total_modules = len(refined_test_case.modules)
     
-    if state.get("refined_extracted_test_case") is None:
-        state["refined_extracted_test_case"] = extracted_test_case.model_copy(deep=True)
-    
     refined_extracted_test_case = state.get("refined_extracted_test_case")
     
     if refined_extracted_test_case is None:

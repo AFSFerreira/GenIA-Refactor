@@ -117,10 +117,6 @@ class BrowserTool:
             dispatcher=self.dispatcher
         )
         
-        print("\n\n\n\n")
-        print(results)
-        print("\n\n\n\n")
-        
         extracted_content: List[Dict[str, Any]] = []
         token_usage: Dict[str, Any] = {
             "completion_tokens": 0, "prompt_tokens": 0, "total_tokens": 0
@@ -144,10 +140,6 @@ class BrowserTool:
                 
                 try:
                     raw_content = json.loads(result.extracted_content)
-                    
-                    print("\n\n\n\n")
-                    print(raw_content)
-                    print("\n\n\n\n")
                     
                     if isinstance(raw_content, list):
                         extracted_content = raw_content
