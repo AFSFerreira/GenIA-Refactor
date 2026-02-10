@@ -1,0 +1,88 @@
+{
+    "testCase": "Verify Subscription in home page",
+    "modules": [
+        {
+            "url": "http://automationexercise.com",
+            "purpose": "Home page of the automation exercise website.",
+            "execution_steps": [
+                {
+                    "step": "Launch browser",
+                    "extracted_data": []
+                },
+                {
+                    "step": "Navigate to url 'http://automationexercise.com'",
+                    "extracted_data": []
+                },
+                {
+                    "step": "Verify that home page is visible successfully",
+                    "extracted_data": [
+                        {
+                            "type": "text",
+                            "request_description": "Verify that the home page is visible successfully.",
+                            "identifier_type": "XPath",
+                            "identifier_tracking": "//*[@id='slider-carousel']",
+                            "step_name": "Verify that home page is visible successfully"
+                        }
+                    ]
+                },
+                {
+                    "step": "Scroll down to footer",
+                    "extracted_data": []
+                },
+                {
+                    "step": "Verify text 'SUBSCRIPTION'",
+                    "extracted_data": [
+                        {
+                            "type": "text",
+                            "request_description": "Verify text 'SUBSCRIPTION'.",
+                            "identifier_type": "XPath",
+                            "identifier_tracking": "//*[contains(text(), 'SUBSCRIPTION')]",
+                            "step_name": "Verify text 'SUBSCRIPTION'"
+                        }
+                    ]
+                },
+                {
+                    "step": "Enter email address in input and click arrow button",
+                    "extracted_data": [
+                        {
+                            "type": "input",
+                            "request_description": "Field to enter the email address for subscription.",
+                            "identifier_type": "XPath",
+                            "identifier_tracking": "//*[@id='susbscribe_email']",
+                            "step_name": "Enter email address in input and click arrow button"
+                        },
+                        {
+                            "type": "button",
+                            "request_description": "Button to submit the email for subscription.",
+                            "identifier_type": "XPath",
+                            "identifier_tracking": "//*[@id='subscribe']",
+                            "step_name": "Enter email address in input and click arrow button"
+                        }
+                    ]
+                },
+                {
+                    "step": "Verify success message 'You have been successfully subscribed!' is visible",
+                    "extracted_data": [
+                        {
+                            "type": "text",
+                            "request_description": "Verify success message after subscription.",
+                            "identifier_type": "XPath",
+                            "identifier_tracking": "//*[contains(text(), 'You have been successfully subscribed!')]",
+                            "step_name": "Verify success message 'You have been successfully subscribed!' is visible"
+                        }
+                    ]
+                }
+            ],
+            "token": {
+                "completion_tokens": 0,
+                "prompt_tokens": 0,
+                "total_tokens": 0
+            },
+            "dispatcher": {
+                "memory_usage_MB": 0.0,
+                "duration_seconds": 0.0,
+                "peak_memory_MB": 0.0
+            }
+        }
+    ]
+}

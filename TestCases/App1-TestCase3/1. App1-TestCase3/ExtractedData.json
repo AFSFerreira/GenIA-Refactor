@@ -1,0 +1,116 @@
+{
+    "testCase": "Login User with incorrect email and password",
+    "modules": [
+        {
+            "url": "http://automationexercise.com",
+            "purpose": "Home page of the application",
+            "execution_steps": [
+                {
+                    "step": "Launch browser",
+                    "extracted_data": []
+                },
+                {
+                    "step": "Navigate to url 'http://automationexercise.com'",
+                    "extracted_data": []
+                },
+                {
+                    "step": "Verify that home page is visible successfully",
+                    "extracted_data": []
+                },
+                {
+                    "step": "Click on 'Signup / Login' button",
+                    "extracted_data": [
+                        {
+                            "type": "button",
+                            "request_description": "Button to navigate to the Signup/Login page",
+                            "identifier_type": "XPath",
+                            "identifier_tracking": "//*[@id='header']/div[2]/div/div/nav/ul/li[4]/a",
+                            "step_name": "Click on 'Signup / Login' button"
+                        }
+                    ]
+                }
+            ],
+            "token": {
+                "completion_tokens": 0,
+                "prompt_tokens": 0,
+                "total_tokens": 0
+            },
+            "dispatcher": {
+                "memory_usage_MB": 0.0,
+                "duration_seconds": 0.0,
+                "peak_memory_MB": 0.0
+            }
+        },
+        {
+            "url": "https://automationexercise.com/login",
+            "purpose": "Login page for users to enter their credentials",
+            "execution_steps": [
+                {
+                    "step": "Verify 'Login to your account' is visible",
+                    "extracted_data": [
+                        {
+                            "type": "header",
+                            "request_description": "'Login to your account' header visible to the user",
+                            "identifier_type": "XPath",
+                            "identifier_tracking": "//*[text()='Login to your account']",
+                            "step_name": "Verify 'Login to your account' is visible"
+                        }
+                    ]
+                },
+                {
+                    "step": "Enter incorrect email address and password",
+                    "extracted_data": [
+                        {
+                            "type": "input",
+                            "request_description": "Field to enter the user's email",
+                            "identifier_type": "XPath",
+                            "identifier_tracking": "//*[@id='form']input[1]",
+                            "step_name": "Enter incorrect email address and password"
+                        },
+                        {
+                            "type": "input",
+                            "request_description": "Field to enter the user's password",
+                            "identifier_type": "XPath",
+                            "identifier_tracking": "//*[@id='form']input[2]",
+                            "step_name": "Enter incorrect email address and password"
+                        }
+                    ]
+                },
+                {
+                    "step": "Click 'login' button",
+                    "extracted_data": [
+                        {
+                            "type": "button",
+                            "request_description": "Button to submit the login form",
+                            "identifier_type": "XPath",
+                            "identifier_tracking": "//*[@id='form']/button",
+                            "step_name": "Click 'login' button"
+                        }
+                    ]
+                },
+                {
+                    "step": "Verify error 'Your email or password is incorrect!' is visible",
+                    "extracted_data": [
+                        {
+                            "type": "div",
+                            "request_description": "Error message displayed when login fails",
+                            "identifier_type": "XPath",
+                            "identifier_tracking": "//*[text()='Your email or password is incorrect!']",
+                            "step_name": "Verify error 'Your email or password is incorrect!' is visible"
+                        }
+                    ]
+                }
+            ],
+            "token": {
+                "completion_tokens": 0,
+                "prompt_tokens": 0,
+                "total_tokens": 0
+            },
+            "dispatcher": {
+                "memory_usage_MB": 0.0,
+                "duration_seconds": 0.0,
+                "peak_memory_MB": 0.0
+            }
+        }
+    ]
+}

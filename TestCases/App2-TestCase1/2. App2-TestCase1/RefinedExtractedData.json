@@ -1,0 +1,69 @@
+{
+    "testCase": "Successfully Search for a Movie",
+    "modules": [
+        {
+            "url": "http://localhost:5173/",
+            "purpose": "Home page for searching movies",
+            "execution_steps": [
+                {
+                    "step": "Launch browser",
+                    "extracted_data": []
+                },
+                {
+                    "step": "Navigate to url 'http://localhost:5173/'",
+                    "extracted_data": []
+                },
+                {
+                    "step": "Verify that home page is visible successfully",
+                    "extracted_data": []
+                },
+                {
+                    "step": "Click on the search input labeled 'Digite o nome do filme'",
+                    "extracted_data": [
+                        {
+                            "type": "input",
+                            "request_description": "Field to enter the movie name",
+                            "identifier_type": "XPath",
+                            "identifier_tracking": "//*[@id='search_input']",
+                            "step_name": "Click on the search input labeled 'Digite o nome do filme'"
+                        }
+                    ]
+                },
+                {
+                    "step": "Enter movie name 'Interestellar'",
+                    "extracted_data": []
+                }
+            ],
+            "token": {
+                "completion_tokens": 0,
+                "prompt_tokens": 0,
+                "total_tokens": 0
+            },
+            "dispatcher": {
+                "memory_usage_MB": 0.0,
+                "duration_seconds": 0.0,
+                "peak_memory_MB": 0.0
+            }
+        },
+        {
+            "url": "http://localhost:5173/search",
+            "purpose": "Search results page displaying the movie card",
+            "execution_steps": [
+                {
+                    "step": "Verify that the movie card titled 'Interstellar' is visible",
+                    "extracted_data": []
+                }
+            ],
+            "token": {
+                "completion_tokens": 0,
+                "prompt_tokens": 0,
+                "total_tokens": 0
+            },
+            "dispatcher": {
+                "memory_usage_MB": 0.0,
+                "duration_seconds": 0.0,
+                "peak_memory_MB": 0.0
+            }
+        }
+    ]
+}

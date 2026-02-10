@@ -1,0 +1,69 @@
+{
+    "testCase": "Test Case 6: Successfully Filter Movies by State",
+    "modules": [
+        {
+            "url": "http://localhost:5173/",
+            "purpose": "Home page where the user can filter movies by state.",
+            "execution_steps": [
+                {
+                    "step": "Launch browser",
+                    "extracted_data": []
+                },
+                {
+                    "step": "Navigate to url 'http://localhost:5173/'",
+                    "extracted_data": []
+                },
+                {
+                    "step": "Verify that home page is visible successfully",
+                    "extracted_data": []
+                },
+                {
+                    "step": "Click on the select dropdown labeled 'Estado'",
+                    "extracted_data": [
+                        {
+                            "type": "select",
+                            "request_description": "Dropdown to select the state for filtering movies",
+                            "identifier_type": "XPath",
+                            "identifier_tracking": "//*[@id='estado-dropdown']",
+                            "step_name": "Click on the select dropdown labeled 'Estado'"
+                        }
+                    ]
+                },
+                {
+                    "step": "Select the option 'AM' from the list",
+                    "extracted_data": [
+                        {
+                            "type": "option",
+                            "request_description": "Option to select the state 'AM'",
+                            "identifier_type": "XPath",
+                            "identifier_tracking": "//*[@id='estado-dropdown']/option[text()='AM']",
+                            "step_name": "Select the option 'AM' from the list"
+                        }
+                    ]
+                },
+                {
+                    "step": "Verify that the movie card titled 'Joker' is visible",
+                    "extracted_data": [
+                        {
+                            "type": "div",
+                            "request_description": "Movie card titled 'Joker'",
+                            "identifier_type": "XPath",
+                            "identifier_tracking": "//*[contains(text(), 'Joker')]",
+                            "step_name": "Verify that the movie card titled 'Joker' is visible"
+                        }
+                    ]
+                }
+            ],
+            "token": {
+                "completion_tokens": 0,
+                "prompt_tokens": 0,
+                "total_tokens": 0
+            },
+            "dispatcher": {
+                "memory_usage_MB": 0.0,
+                "duration_seconds": 0.0,
+                "peak_memory_MB": 0.0
+            }
+        }
+    ]
+}
