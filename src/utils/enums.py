@@ -1,7 +1,13 @@
-from langgraph.graph import END, START
+"""Enumerations used across the GenIA workflow."""
+
 from enum import StrEnum, auto
 
+from langgraph.graph import END, START
+
+
 class GenIANodeName(StrEnum):
+    """Node identifiers for the LangGraph workflow."""
+
     START = START
     END = END
     RESTRUCTURING_TASK = auto()
@@ -11,6 +17,8 @@ class GenIANodeName(StrEnum):
 
 
 class GenIAStateStatus(StrEnum):
+    """Execution status of the workflow state machine."""
+
     STARTING = auto()
     RESTRUCTURING = auto()
     EXPLORING = auto()

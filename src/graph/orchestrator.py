@@ -1,20 +1,19 @@
-"""
-GenIA E2E Test Orchestrator - LangGraph workflow for E2E test generation.
+"""GenIA E2E Test Orchestrator — LangGraph workflow for E2E test generation.
 
 This orchestrator coordinates the following phases:
-1. Restructuring (Level 1): Break test case into modules by URL
-2. Extraction (Level 2): Extract HTML elements from each page
-3. Refinement (Level 2): Refine and validate extracted elements
-4. Generation (Level 3): Generate Robot Framework script
+    1. **Restructuring** (Level 1): Break test case into modules by URL.
+    2. **Extraction** (Level 2): Extract HTML elements from each page.
+    3. **Refinement** (Level 2): Refine and validate extracted elements.
+    4. **Generation** (Level 3): Generate Robot Framework script.
 """
+
 from pathlib import Path
-from typing import cast
+from typing import Union
 
 from langchain_core.runnables import Runnable
 from langgraph.graph import StateGraph
 from langgraph.graph.state import CompiledStateGraph
 
-from src.env import env_variables
 from src.graph.edges import (
     route_after_extraction,
     route_after_refinement,
@@ -34,8 +33,8 @@ from src.graph.routing_maps import (
 from src.graph.state import GenIAState
 from src.tools.file_system import (
     create_directory_if_not_exists,
-    write_json_file,
     write_file,
+    write_json_file,
 )
 from src.utils.enums import GenIANodeName, GenIAStateStatus
 from src.utils.logger import get_logger
@@ -43,31 +42,27 @@ from src.utils.logger import get_logger
 logger = get_logger(__name__)
 
 class GenIAStateOrchestrator:
+    """Orchestrator for the E2E test generation LangGraph workflow.
+
+    Builds and manages the workflow that processes test cases through
+    restructuring, extraction, refinement, and code generation.
     """
-    Orchestrator for the E2E test generation workflow.
-    
-    This class builds and manages the LangGraph workflow that processes
-    test cases through restructuring, extraction, refinement, and code generation.
-    """
+
     graph: Runnable[GenIAState, GenIAState]
-    
-    def __init__(self, output_dir: str | Path):
-        """
-        Initialize the orchestrator.
-        
+
+    def __init__(self, output_dir: Union[str, Path]) -> None:
+        """Initialise the orchestrator and compile the graph.
+
         Args:
-            output_dir: Directory for output files. Defaults to env config.
+            output_dir: Directory for output files.
         """
         self.output_dir: Path = Path(output_dir)
-        
         create_directory_if_not_exists(output_dir)
-        
         self.graph = self._build_graph()
-        
         self.visualize_workflow()
     
     def _build_graph(self) -> CompiledStateGraph:
-        """Build the LangGraph workflow with all nodes and edges."""
+        """Build and compile the LangGraph workflow with all nodes and edges."""
         logger.info("Building GenIA workflow graph...")
         
         workflow = StateGraph(GenIAState)
@@ -107,32 +102,38 @@ class GenIAStateOrchestrator:
         return workflow.compile()
     
     def visualize_workflow(self, file_name: str = "workflow.png") -> Path:
+        """Save a PNG visualization of the compiled workflow graph.
+
+        Args:
+            file_name: Output file name.
+
+        Returns:
+            Path to the saved image.
+        """
         output_path = self.output_dir / file_name
-        
         png_bytes = self.graph.get_graph().draw_mermaid_png()
-        
         output_path.write_bytes(png_bytes)
-        
         logger.info(f"Workflow graph saved to: {output_path}")
-        
         return output_path
     
     async def run(
         self,
         test_case: str,
         test_case_name: str,
-        attempt_number: int = 1
+        attempt_number: int = 1,
     ) -> GenIAState:
-        """
-        Run the workflow for a single test case.
-        
+        """Execute the workflow for a single test case.
+
         Args:
             test_case: Raw test case text content.
             test_case_name: Name identifier for the test case.
             attempt_number: Attempt number (for retries).
-            
+
         Returns:
-            Final state after workflow completion.
+            Final workflow state.
+
+        Raises:
+            RuntimeError: If the graph has not been initialized.
         """
         if self.graph is None:
             raise RuntimeError("Workflow graph not initialized")
@@ -171,12 +172,11 @@ class GenIAStateOrchestrator:
         return final_state
     
     def _save_outputs(self, state: GenIAState, output_folder: Path) -> None:
-        """
-        Save workflow outputs to files.
-        
+        """Persist workflow outputs (JSON artifacts and Robot script) to disk.
+
         Args:
             state: Final workflow state.
-            output_folder: Directory to save outputs.
+            output_folder: Directory to save outputs into.
         """
         logger.info(f"Saving outputs to: {output_folder}")
         

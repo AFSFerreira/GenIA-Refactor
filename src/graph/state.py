@@ -1,53 +1,45 @@
-"""
-Shared state for the LangGraph workflow for E2E test generation.
-"""
-from typing import TypedDict, List, Optional, Annotated, Dict, Any
-from langgraph.graph.message import add_messages, BaseMessage
-from src.models import TestCaseModel
+"""Shared state definition for the LangGraph E2E test generation workflow."""
+
+from typing import Annotated, List, Optional, TypedDict
+
+from langgraph.graph.message import BaseMessage, add_messages
+
 from src.models.extracted_test_case_model import ExtractedTestCaseModel
+from src.models.test_case import TestCaseModel
 from src.utils.enums import GenIAStateStatus
 
+
 class GenIAState(TypedDict):
+    """Main state shared across all nodes in the LangGraph workflow.
+
+    Attributes:
+        messages: Conversation messages exchanged between agents.
+        execution_status: Current phase of the workflow.
+        attempt_number: Retry attempt number for the current test case.
+        test_case: Raw text of the input test case.
+        test_case_name: Identifier derived from the input file name.
+        output_directory: Folder path for generated artifacts.
+        current_module_index: Index of the module being processed.
+        refined_test_case: Structured test case after Level 1 restructuring.
+        extracted_test_case: Test case after Level 2 first-pass extraction.
+        refined_extracted_test_case: Test case after Level 2 second-pass refinement.
+        script_robot: Generated Robot Framework script (Level 3 output).
     """
-    Main state of the LangGraph graph.
-    
-    This state is shared across all graph nodes and maintains
-    information about the progress of E2E test generation.
-    """
-    # Messages exchanged between agents
+
     messages: Annotated[List[BaseMessage], add_messages]
-    
-    
-    # Workflow execution status
+
     execution_status: GenIAStateStatus
-    
-    # Current attempt number to process the input
     attempt_number: int
-    
-    # Initial user input (raw test case text)
+
     test_case: str
-    
-    # Original test case name (filename without extension)
     test_case_name: str
-    
-    # Output directory for final test script
     output_directory: str
 
-    # Current module index being processed in TestCaseModel
     current_module_index: int
-    
-    
-    # TestCaseModel extracted from initial prompt by LLM (Level 1 output)
-    refined_test_case: Optional[TestCaseModel]
-    
 
-    # Test case data after extraction (Level 2 first pass)
+    refined_test_case: Optional[TestCaseModel]
     extracted_test_case: Optional[ExtractedTestCaseModel]
-    
-    # Test case data after refinement (Level 2 second pass)
     refined_extracted_test_case: Optional[ExtractedTestCaseModel]
-    
-    
-    # Robot Framework script generated at end of workflow (Level 3 output)
+
     script_robot: Optional[str]
 

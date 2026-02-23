@@ -1,6 +1,4 @@
-"""
-Explorer Agent - Responsible for extracting HTML elements from web pages.
-"""
+"""Explorer agent — extracts HTML elements from web pages via crawl4ai."""
 
 from playwright._impl._errors import TargetClosedError
 from tenacity import (
@@ -10,9 +8,7 @@ from tenacity import (
     wait_exponential,
 )
 
-from src.env import env_variables
 from src.env.index import EnvironmentVariables
-from src.models import ExtractedElement
 from src.models.extraction_container import ExtractionContainer
 from src.models.extraction_result import ExtractionResultModel
 from src.tools.browser import BrowserTool
@@ -30,36 +26,33 @@ async def extract_elements_from_page(
     url: str,
     instruction: str,
 ) -> ExtractionResultModel:
-    """
-    Extract HTML elements from a web page using LLM-based extraction.
-    
+    """Extract HTML elements from a web page using LLM-based extraction.
+
     Args:
         url: The URL to crawl and extract elements from.
-        instruction: LLM instruction for extraction.
-        
+        instruction: Natural-language instruction for the LLM.
+
     Returns:
-        Dictionary containing:
-            - extracted_content: List of extracted elements
-            - token_usage: Token usage statistics
-            - dispatcher_data: Dispatcher performance data
+        An `ExtractionResultModel` containing the extracted elements,
+        token usage, and dispatcher statistics.
     """
     logger.info(f"Extracting elements from: {url}")
-    
+
     async with BrowserTool() as browser:
         result = await browser.extract_elements(
             url=url,
             instruction=instruction,
             schema=ExtractionContainer,
-            temperature=EnvironmentVariables.ai_agents_temperature
+            temperature=EnvironmentVariables.ai_agents_temperature,
         )
-    
+
     logger.info(f"Extraction completed for: {url}")
-    
+
     container_obj = result.get("extracted_content")
-    elements_list = container_obj.elements if container_obj else []    
-    
+    elements_list = container_obj.elements if container_obj else []
+
     return ExtractionResultModel(
         extracted_content=elements_list,
         token_usage=result["token_usage"],
-        dispatcher_data=result["dispatcher_data"]
+        dispatcher_data=result["dispatcher_data"],
     )

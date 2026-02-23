@@ -1,23 +1,26 @@
-"""
-Tools package.
-"""
-from .browser import BrowserTool
+"""Tools package: browser automation, file I/O, parsing, and prompt loading."""
+
+from .browser import BrowserManager, BrowserTool
 from .file_system import (
     create_directory_if_not_exists,
     read_file,
-    write_json_file,
     read_json_file,
     write_file,
+    write_json_file,
 )
-from .parser import strip_markdown_code_fences
+from .load_prompt import load_prompt
+from .parser import map_extracted_data_to_steps, strip_markdown_code_fences
 
 __all__ = [
-    'BrowserTool',
-    'create_directory_if_not_exists',
-    'read_file',
-    'write_json_file',
-    'read_json_file',
-    'write_file',
-    'strip_markdown_code_fences',
+    "BrowserManager",
+    "BrowserTool",
+    "create_directory_if_not_exists",
+    "load_prompt",
+    "map_extracted_data_to_steps",
+    "read_file",
+    "read_json_file",
+    "strip_markdown_code_fences",
+    "write_file",
+    "write_json_file",
 ]
 

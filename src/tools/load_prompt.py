@@ -1,12 +1,26 @@
-from src.env import env_variables
+"""Jinja2 template loader for agent prompts."""
+
 from jinja2 import Environment, FileSystemLoader
 
-env = Environment(loader=FileSystemLoader(env_variables.prompts_dir))
+from src.env import env_variables
 
-def load_prompt(template_name: str, **kwargs) -> str:
+_env = Environment(loader=FileSystemLoader(env_variables.prompts_dir))
+
+
+def load_prompt(template_name: str, **kwargs: object) -> str:
+    """Render a Jinja2 prompt template with the given variables.
+
+    Example:
+
+        load_prompt('agents/langgraph/level1_restructuring.jinja2', test_case='...')
+
+    Args:
+        template_name: Relative path to the template inside the prompts directory.
+        **kwargs: Variables passed to the template.
+
+    Returns:
+        The rendered prompt string.
     """
-    Load a template and inject variables.
-    Example: load_prompt('agents/langgraph/level1_restructuring.jinja2', test_case='...')
-    """
-    template = env.get_template(template_name)
+    template = _env.get_template(template_name)
+    
     return template.render(**kwargs)

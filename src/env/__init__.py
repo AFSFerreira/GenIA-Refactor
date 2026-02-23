@@ -1,3 +1,8 @@
-from .index import (env_variables)
+"""Environment configuration module."""
 
-__all__ = ['env_variables']
+from .index import EnvironmentVariables, env_variables
+
+__all__ = [
+    "EnvironmentVariables",
+    "env_variables",
+]

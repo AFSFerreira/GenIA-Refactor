@@ -1,3 +1,5 @@
+"""Static routing maps consumed by LangGraph conditional edges."""
+
 from typing import Dict, Hashable
 
 from src.utils.enums import GenIANodeName

@@ -1,14 +1,13 @@
-"""
-LangGraph nodes.
-"""
-from .restructuring import restructuring_node
+"""LangGraph node functions for each workflow phase."""
+
 from .extraction import extraction_node
-from .refinement import refinement_node
 from .generation import generation_node
+from .refinement import refinement_node
+from .restructuring import restructuring_node
 
 __all__ = [
-    'restructuring_node',
-    'extraction_node',
-    'refinement_node',
-    'generation_node',
+    "extraction_node",
+    "generation_node",
+    "refinement_node",
+    "restructuring_node",
 ]
