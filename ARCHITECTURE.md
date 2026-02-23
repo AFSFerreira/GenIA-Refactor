@@ -40,20 +40,9 @@ Tudo isso vivia em um único `async def main()` com loops aninhados, prompts har
 
 A nova arquitetura preserva **exatamente as mesmas 3 fases de processamento**, mas as organiza como um **grafo de estados (state graph)** usando o framework **LangGraph**. Cada fase é implementada como um **nó** do grafo, a lógica de LLM vive em **agentes** dedicados, as transições entre fases são gerenciadas por **arestas condicionais**, e todo o restante, como os modelos, prompts, ferramentas e configurações estão isolados em módulos bem independentes e totalmente reutilizáveis.
 
-```
-┌──────────────────────────────────────────────────────────────────┐
-│  SCRIPT ORIGINAL (genIAE2ETest.py)       NOVA ARQUITETURA (src/)       │
-│  ────────────────────────          ─────────────────────────     │
-│  1 arquivo, ~444 linhas     →    ~30 arquivos, separação total   │
-│  Sem tipagem                →    TypedDict + Pydantic em tudo    │
-│  Prompts como f-strings     →    Templates Jinja2 externos       │
-│  Fluxo imperativo           →    Grafo de estados (LangGraph)    │
-│  Sem logs                   →    Logger hierárquico com arquivo  │
-│  Sem retry                  →    Retry com backoff exponencial   │
-│  Crawler inline             →    BrowserTool com Singleton       │
-│  OpenAI client por uso      →    Singleton GenIAClientProvider   │
-└──────────────────────────────────────────────────────────────────┘
-```
+<div align=center>
+  <img width="50%" height="4610" alt="mapping" src="https://github.com/user-attachments/assets/ceb51690-2332-4fbc-a689-20d77f4cfa37" />
+</div>
 
 ---
 
