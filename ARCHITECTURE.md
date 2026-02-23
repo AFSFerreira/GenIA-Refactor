@@ -2,7 +2,7 @@
 
 ---
 
-## Sumário
+## Sumário:
 
 1. [Visão Geral da Transformação](#1-visão-geral-da-transformação)
 2. [Representação Visual do Novo Fluxo (Grafo)](#2-representação-visual-do-novo-fluxo-grafo)
@@ -20,16 +20,15 @@
 14. [Arestas Condicionais (Edges): `src/graph/edges/`](#14-arestas-condicionais-edges-srcgraphedges)
 15. [Mapas de Roteamento: `routing_maps.py`](#15-mapas-de-roteamento-routing_mapspy)
 16. [Orquestrador: `orchestrator.py`](#16-orquestrador-orchestratorpy)
-17. [Mapeamento Completo: Protótipo → Nova Arquitetura](#17-mapeamento-completo-protótipo--nova-arquitetura)
-18. [Benefícios da Nova Arquitetura](#18-benefícios-da-nova-arquitetura)
+17. [O que Mudou na Nova Arquitetura](#17-o-que-mudou-na-nova-arquitetura)
 
 ---
 
-## 1. Visão Geral da Transformação
+## 1. Visão Geral da Transformação:
 
-### O que era o protótipo (`genIAE2ETest.py`)?
+### O que era o script original (`genIAE2ETest.py`):
 
-O protótipo era um **script monolítico** que executava três etapas sequenciais em um único arquivo:
+O script original era um **arquivo monolítico** que executava três etapas sequenciais em um único arquivo:
 
 1. **Reestruturação (Level 1):** Pegava o caso de teste em texto puro e, via chamada à API da OpenAI com Structured Output, gerava um JSON estruturado dividindo o caso de teste em módulos por URL.
 2. **Extração + Refinamento (Level 2):** Para cada módulo/URL, usava o `crawl4ai` para visitar a página, extrair elementos HTML relevantes (primeira passada) e em seguida refinar esses elementos (segunda passada).
@@ -37,13 +36,13 @@ O protótipo era um **script monolítico** que executava três etapas sequenciai
 
 Tudo isso vivia em um único `async def main()` com loops aninhados, prompts hardcoded como f-strings gigantes, modelos Pydantic definidos no mesmo arquivo, e lógica de I/O, parsing e chamadas LLM completamente entrelaçados.
 
-### O que é a nova arquitetura?
+### O que é a nova arquitetura:
 
 A nova arquitetura preserva **exatamente as mesmas 3 fases de processamento**, mas as organiza como um **grafo de estados (state graph)** usando o framework **LangGraph**. Cada fase é implementada como um **nó** do grafo, a lógica de LLM vive em **agentes** dedicados, as transições entre fases são gerenciadas por **arestas condicionais**, e todo o restante, como os modelos, prompts, ferramentas e configurações estão isolados em módulos bem independentes e totalmente reutilizáveis.
 
 ```
 ┌──────────────────────────────────────────────────────────────────┐
-│  PROTÓTIPO (genIAE2ETest.py)       NOVA ARQUITETURA (src/)       │
+│  SCRIPT ORIGINAL (genIAE2ETest.py)       NOVA ARQUITETURA (src/)       │
 │  ────────────────────────          ─────────────────────────     │
 │  1 arquivo, ~444 linhas     →    ~30 arquivos, separação total   │
 │  Sem tipagem                →    TypedDict + Pydantic em tudo    │
@@ -58,7 +57,7 @@ A nova arquitetura preserva **exatamente as mesmas 3 fases de processamento**, m
 
 ---
 
-## 2. Representação Visual do Novo Fluxo (Grafo)
+## 2. Representação Visual do Novo Fluxo (Grafo):
 
 **O diagrama abaixo representa o fluxo completo do grafo LangGraph compilado.** Ele é gerado automaticamente pelo método `visualize_workflow()` do orquestrador e salvo como `workflow.png` na pasta de saída.
 
@@ -72,7 +71,7 @@ A nova arquitetura preserva **exatamente as mesmas 3 fases de processamento**, m
 
 ---
 
-## 3. Estrutura de Diretórios da Nova Arquitetura
+## 3. Estrutura de Diretórios da Nova Arquitetura:
 
 ```
 src/
@@ -104,16 +103,16 @@ src/
 │       └── restructuring.py        # Nó de reestruturação (Level 1)
 ├── models/                         # Modelos Pydantic tipados
 │   ├── __init__.py
-│   ├── dispatcher_stats.py         # DispatcherStatsModel — métricas de performance do crawler (memória, tempo)
-│   ├── execution_step.py           # ExecutionStepModel — um passo de ação do usuário com seus elementos HTML
-│   ├── extracted_element.py        # ExtractedElement — elemento HTML identificado na página (tipo, XPath, descrição)
-│   ├── extracted_module_model.py   # ExtractedModuleModel — módulo + metadados de extração (herda ModuleModel)
-│   ├── extracted_test_case_model.py# ExtractedTestCaseModel — caso de teste com módulos enriquecidos (herda TestCaseModel)
-│   ├── extraction_container.py     # ExtractionContainer — wrapper que agrupa a lista de elementos retornada pelo crawl4ai
-│   ├── extraction_result.py        # ExtractionResultModel — resultado completo de uma passada: elementos + tokens + stats
-│   ├── module.py                   # ModuleModel — agrupamento de passos por URL (uma página do teste)
-│   ├── test_case.py                # TestCaseModel — caso de teste completo com nome e lista de módulos
-│   └── token_usage.py              # TokenUsageModel — consumo de tokens da LLM (prompt, completion, total)
+│   ├── dispatcher_stats.py         # DispatcherStatsModel, métricas de performance do crawler (memória, tempo)
+│   ├── execution_step.py           # ExecutionStepModel, um passo de ação do usuário com seus elementos HTML
+│   ├── extracted_element.py        # ExtractedElement, elemento HTML identificado na página (tipo, XPath, descrição)
+│   ├── extracted_module_model.py   # ExtractedModuleModel, módulo + metadados de extração (herda ModuleModel)
+│   ├── extracted_test_case_model.py# ExtractedTestCaseModel, caso de teste com módulos enriquecidos (herda TestCaseModel)
+│   ├── extraction_container.py     # ExtractionContainer, wrapper que agrupa a lista de elementos retornada pelo crawl4ai
+│   ├── extraction_result.py        # ExtractionResultModel, resultado completo de uma passada: elementos + tokens + stats
+│   ├── module.py                   # ModuleModel, agrupamento de passos por URL (uma página do teste)
+│   ├── test_case.py                # TestCaseModel, caso de teste completo com nome e lista de módulos
+│   └── token_usage.py              # TokenUsageModel, consumo de tokens da LLM (prompt, completion, total)
 ├── prompts/                        # Templates Jinja2 para prompts de LLM
 │   ├── level1_restructuring.j2     # Prompt de reestruturação
 │   ├── level2_extraction.j2        # Prompt de extração
@@ -134,14 +133,14 @@ src/
 
 ---
 
-## 4. Ponto de Entrada: De `asyncio.run(main())` para `main.py`
+## 4. Ponto de Entrada: De `asyncio.run(main())` para `main.py`:
 
-### No protótipo
+### No script original:
 
 Tudo acontecia dentro de uma única função `main()` de centenas de linhas:
 
 ```python
-# genIAE2ETest.py (protótipo)
+# genIAE2ETest.py (script original)
 async def main():
     create_directory_if_not_exists(newFolder)
     async with AsyncWebCrawler() as crawler:
@@ -151,7 +150,7 @@ async def main():
 
 A função `main()` era responsável por **tudo**: ler arquivos, instanciar o crawler, iterar sobre casos de teste, chamar a API da OpenAI, iterar sobre módulos, fazer extração e refinamento via crawl4ai, salvar arquivos JSON e gerar scripts Robot Framework.
 
-### Na nova arquitetura
+### Na nova arquitetura:
 
 O `main.py` na raiz do projeto tem apenas **~40 linhas** e é extremamente enxuto:
 
@@ -176,14 +175,14 @@ async def main():
 
 ---
 
-## 5. Configuração de Ambiente: De variáveis soltas para `src/env/`
+## 5. Configuração de Ambiente: De variáveis soltas para `src/env/`:
 
-### No protótipo
+### No script original:
 
 As variáveis de ambiente eram carregadas de forma desestruturada no escopo global do script:
 
 ```python
-# genIAE2ETest.py (protótipo)
+# genIAE2ETest.py (script original)
 load_dotenv()
 test_case_file = os.getenv("TEST_CASE")
 api_key_string = os.getenv("OPENAI_API_KEY")
@@ -193,7 +192,7 @@ newFolder = Path('TestCases')
 
 Sem validação, sem tipagem, sem centralização. Se `OPENAI_API_KEY` estivesse ausente, o erro só apareceria no meio da execução.
 
-### Na nova arquitetura → `src/env/index.py`
+### Na nova arquitetura → `src/env/index.py`:
 
 Agora existe uma **dataclass tipada** `EnvironmentVariables` que centraliza e valida todas as configurações:
 
@@ -219,12 +218,12 @@ class EnvironmentVariables:
 
 ## 6. Modelos de Dados: De classes inline para `src/models/`:
 
-### No protótipo:
+### No script original:
 
 Os modelos Pydantic estavam todos definidos como classes globais no meio do script:
 
 ```python
-# genIAE2ETest.py (protótipo) — tudo no mesmo arquivo
+# genIAE2ETest.py (script original), tudo no mesmo arquivo
 class ExtractedElement(BaseModel):
     type: str = Field(...)
     request_description: str = Field(...)
@@ -254,24 +253,24 @@ Cada modelo agora vive em seu **próprio arquivo**, com documentação e tipagem
 
 <div align="center">
 
-| Arquivo | Modelo | Descrição | Equivalente no protótipo |
+| Arquivo | Modelo | Descrição | Equivalente no script original |
 |---------|--------|-----------|--------------------------|
 | `extracted_element.py` | `ExtractedElement` | Elemento HTML extraído (type, xpath, step_name…) | `ExtractedElement` (mesmo nome, mas agora isolado) |
 | `execution_step.py` | `ExecutionStepModel` | Passo de execução com lista de elementos | `ExecutionStepModel` (mesmo) |
 | `module.py` | `ModuleModel` | Módulo com URL, propósito e passos | `ModuleModel` (mesmo) |
 | `test_case.py` | `TestCaseModel` | Caso de teste com lista de módulos | `TestCaseModel` (mesmo) |
-| `token_usage.py` | `TokenUsageModel` | Estatísticas de consumo de tokens | **Novo** — antes era um `dict` montado manualmente |
-| `dispatcher_stats.py` | `DispatcherStatsModel` | Métricas de performance do dispatcher | **Novo** — antes era um `dict` montado manualmente |
-| `extracted_module_model.py` | `ExtractedModuleModel` | `ModuleModel` + metadados de extração (token, dispatcher) | **Novo** — antes os dados eram injetados com `module["token"] = ...` |
-| `extracted_test_case_model.py` | `ExtractedTestCaseModel` | `TestCaseModel` com módulos enriquecidos | **Novo** — antes era um `dict` JSON manipulado |
-| `extraction_container.py` | `ExtractionContainer` | Wrapper para lista de elementos extraídos | **Novo** — encapsula a resposta do crawl4ai |
-| `extraction_result.py` | `ExtractionResultModel` | Resultado completo de uma extração (conteúdo + tokens + dispatcher) | **Novo** — antes tudo era manipulado in-place |
+| `token_usage.py` | `TokenUsageModel` | Estatísticas de consumo de tokens | **Novo**, antes era um `dict` montado manualmente |
+| `dispatcher_stats.py` | `DispatcherStatsModel` | Métricas de performance do dispatcher | **Novo**, antes era um `dict` montado manualmente |
+| `extracted_module_model.py` | `ExtractedModuleModel` | `ModuleModel` + metadados de extração (token, dispatcher) | **Novo**, antes os dados eram injetados com `module["token"] = ...` |
+| `extracted_test_case_model.py` | `ExtractedTestCaseModel` | `TestCaseModel` com módulos enriquecidos | **Novo**, antes era um `dict` JSON manipulado |
+| `extraction_container.py` | `ExtractionContainer` | Wrapper para lista de elementos extraídos | **Novo**, encapsula a resposta do crawl4ai |
+| `extraction_result.py` | `ExtractionResultModel` | Resultado completo de uma extração (conteúdo + tokens + dispatcher) | **Novo**, antes tudo era manipulado in-place |
 
 </div>
 
 ### Descrição Detalhada de Cada Modelo:
 
-#### `ExtractedElement`
+#### `ExtractedElement`:
 Representa um **único elemento HTML** identificado na página durante a fase de extração.
 
 <div align="center">
@@ -286,8 +285,8 @@ Representa um **único elemento HTML** identificado na página durante a fase de
 
 </div>
 
-#### `ExecutionStepModel`
-Representa um **passo de execução** dentro de um módulo — uma ação do usuário ou verificação.
+#### `ExecutionStepModel`:
+Representa um **passo de execução** dentro de um módulo, uma ação do usuário ou verificação.
 
 <div align="center">
 
@@ -298,7 +297,7 @@ Representa um **passo de execução** dentro de um módulo — uma ação do usu
 
 </div>
 
-#### `ModuleModel`
+#### `ModuleModel`:
 Um **módulo** do caso de teste, correspondendo a uma URL específica.
 
 <div align="center">
@@ -311,7 +310,7 @@ Um **módulo** do caso de teste, correspondendo a uma URL específica.
 
 </div>
 
-#### `TestCaseModel`
+#### `TestCaseModel`:
 O **caso de teste completo**, composto por um ou mais módulos.
 
 <div align="center">
@@ -323,7 +322,7 @@ O **caso de teste completo**, composto por um ou mais módulos.
 
 </div>
 
-#### `ExtractedModuleModel` (herda de `ModuleModel`)
+#### `ExtractedModuleModel` (herda de `ModuleModel`):
 Um módulo **enriquecido** com metadados da extração LLM.
 
 <div align="center">
@@ -336,7 +335,7 @@ Um módulo **enriquecido** com metadados da extração LLM.
 
 </div>
 
-#### `ExtractedTestCaseModel` (herda de `TestCaseModel`)
+#### `ExtractedTestCaseModel` (herda de `TestCaseModel`):
 Um caso de teste onde os módulos são do tipo `ExtractedModuleModel`.
 
 <div align="center">
@@ -348,7 +347,7 @@ Um caso de teste onde os módulos são do tipo `ExtractedModuleModel`.
 
 </div>
 
-#### `TokenUsageModel`
+#### `TokenUsageModel`:
 Consumo de tokens agregado de uma chamada LLM.
 
 <div align="center">
@@ -361,7 +360,7 @@ Consumo de tokens agregado de uma chamada LLM.
 
 </div>
 
-#### `DispatcherStatsModel`
+#### `DispatcherStatsModel`:
 Métricas de performance do dispatcher do crawl4ai.
 
 <div align="center">
@@ -376,7 +375,7 @@ Métricas de performance do dispatcher do crawl4ai.
 
 </div>
 
-#### `ExtractionContainer`
+#### `ExtractionContainer`:
 Wrapper que agrupa todos os elementos extraídos de uma página.
 
 <div align="center">
@@ -387,7 +386,7 @@ Wrapper que agrupa todos os elementos extraídos de uma página.
 
 </div>
 
-#### `ExtractionResultModel`
+#### `ExtractionResultModel`:
 Resultado completo de uma passada de extração ou refinamento.
 
 <div align="center">
@@ -402,14 +401,14 @@ Resultado completo de uma passada de extração ou refinamento.
 
 ---
 
-## 7. Prompts: De strings embutidas para templates Jinja2 (`src/prompts/`)
+## 7. Prompts: De strings embutidas para templates Jinja2 (`src/prompts/`):
 
-### No protótipo
+### No script original:
 
 Os prompts eram **f-strings gigantes** embutidas diretamente no código:
 
 ```python
-# genIAE2ETest.py (protótipo) — prompt de reestruturação (~50 linhas de f-string)
+# genIAE2ETest.py (script original), prompt de reestruturação (~50 linhas de f-string)
 completion = client.beta.chat.completions.parse(
     model="gpt-4o-mini",
     messages=[{
@@ -422,9 +421,9 @@ completion = client.beta.chat.completions.parse(
 )
 ```
 
-O mesmo padrão se repetia para os prompts de extração, refinamento e geração — todos inline, tornando o código ilegível e impossível de manter.
+O mesmo padrão se repetia para os prompts de extração, refinamento e geração, todos inline, tornando o código ilegível e impossível de manter.
 
-### Na nova arquitetura → `src/prompts/` + `src/tools/load_prompt.py`
+### Na nova arquitetura → `src/prompts/` + `src/tools/load_prompt.py`:
 
 Cada prompt agora é um **arquivo Jinja2** (`.j2`) separado, e a injeção de variáveis é feita via template rendering:
 
@@ -432,10 +431,10 @@ Cada prompt agora é um **arquivo Jinja2** (`.j2`) separado, e a injeção de va
 
 | Arquivo | Fase | Variáveis do template |
 |---------|------|-----------------------|
-| `level1_restructuring.j2` | Level 1 — Reestruturação | `{{ test_case }}` |
-| `level2_extraction.j2` | Level 2 — Extração | `{{ module }}` |
-| `level2_refinement.j2` | Level 2 — Refinamento | `{{ module_with_extracted_data }}` |
-| `level3_generation.j2` | Level 3 — Geração | `{{ test_case_with_extracted_data }}` |
+| `level1_restructuring.j2` | Level 1, Reestruturação | `{{ test_case }}` |
+| `level2_extraction.j2` | Level 2, Extração | `{{ module }}` |
+| `level2_refinement.j2` | Level 2, Refinamento | `{{ module_with_extracted_data }}` |
+| `level3_generation.j2` | Level 3, Geração | `{{ test_case_with_extracted_data }}` |
 
 </div>
 
@@ -459,25 +458,25 @@ def load_prompt(template_name: str, **kwargs) -> str:
 prompt = load_prompt("level1_restructuring.j2", test_case=state["test_case"])
 ```
 
-**Benefícios:**
+**O que mudou:**
 - Prompts podem ser editados sem tocar em código Python.
 - Variáveis são injetadas de forma segura e explícita via Jinja2.
 - Facilidade para versionar, testar ou trocar prompts.
 
 ---
 
-## 8. Ferramentas Utilitárias: `src/tools/`
+## 8. Ferramentas Utilitárias: `src/tools/`:
 
-Este pacote contém **toda a infraestrutura** que o protótipo usava de forma dispersa e ad-hoc.
+Este pacote contém **toda a infraestrutura** que o script original usava de forma dispersa e ad-hoc.
 
-### 8.1 `browser.py` — De `AsyncWebCrawler` inline para `BrowserManager` + `BrowserTool`
+### 8.1 `browser.py`, De `AsyncWebCrawler` inline para `BrowserManager` + `BrowserTool`:
 
-#### No protótipo
+#### No script original:
 
 O crawler era instanciado diretamente no `main()` e reutilizado manualmente:
 
 ```python
-# genIAE2ETest.py (protótipo)
+# genIAE2ETest.py (script original)
 async with AsyncWebCrawler() as crawler:
     # ... todo o loop vive dentro deste context manager
     llm_strategy_1 = LLMExtractionStrategy(...)
@@ -490,7 +489,7 @@ async with AsyncWebCrawler() as crawler:
 
 Cada iteração criava um novo `LLMExtractionStrategy`, um novo `CrawlerRunConfig`, e o parsing do resultado era feito manualmente com `json.loads` e atribuição direta em dicionários.
 
-#### Na nova arquitetura
+#### Na nova arquitetura:
 
 Duas classes cuidam disso:
 
@@ -508,29 +507,29 @@ async with BrowserTool() as browser:
     )
 ```
 
-Toda a complexidade de configurar `LLMExtractionStrategy`, `CrawlerRunConfig`, parsear JSON, validar com Pydantic, montar dados de token e dispatcher — tudo está encapsulado internamente no `BrowserTool.extract_elements()`.
+Toda a complexidade de configurar `LLMExtractionStrategy`, `CrawlerRunConfig`, parsear JSON, validar com Pydantic, montar dados de token e dispatcher, tudo está encapsulado internamente no `BrowserTool.extract_elements()`.
 
-### 8.2 `gen_ia_client.py` — De instanciação repetida para `GenIAClientProvider` (Singleton)
+### 8.2 `gen_ia_client.py`, De instanciação repetida para `GenIAClientProvider` (Singleton):
 
-#### No protótipo
+#### No script original:
 
 O client OpenAI era criado **dentro do loop**, para cada arquivo de teste:
 
 ```python
-# genIAE2ETest.py (protótipo)
+# genIAE2ETest.py (script original)
 for arquivo in exampleFolder.iterdir():
     client = openai.OpenAI(api_key=api_key_string)
     completion = client.beta.chat.completions.parse(...)
 ```
 
-#### Na nova arquitetura
+#### Na nova arquitetura:
 
 O `GenIAClientProvider` garante **uma única instância** do client:
 
 ```python
 # src/tools/gen_ia_client.py
 class GenIAClientProvider:
-    _client: GenIAClient | None = None
+    _client: Optional[GenIAClient] = None
 
     @classmethod
     def get_client(cls) -> GenIAClient:
@@ -539,14 +538,14 @@ class GenIAClientProvider:
         return cls._client
 ```
 
-### 8.3 `file_system.py` — De `open()` espalhados para funções centralizadas
+### 8.3 `file_system.py`, De `open()` espalhados para funções centralizadas:
 
-#### No protótipo
+#### No script original:
 
 Operações de I/O estavam espalhadas por todo o script:
 
 ```python
-# genIAE2ETest.py (protótipo)
+# genIAE2ETest.py (script original)
 with open(arquivo, 'r', encoding='utf-8') as file:
     test_case = file.read()
 with open(newRefinedTestCase, "w", encoding="utf-8") as f:
@@ -555,18 +554,18 @@ with open(newTestCaseFileAttemptExtractedData, "w", encoding="utf-8") as f:
     json.dump(test_case_json1, f, indent=4, ensure_ascii=False)
 ```
 
-#### Na nova arquitetura
+#### Na nova arquitetura:
 
-Funções utilitárias dedicadas: `read_file()`, `write_file()`, `write_json_file()`, `read_json_file()`, `create_directory_if_not_exists()` — todas em `src/tools/file_system.py`, com logging integrado.
+Funções utilitárias dedicadas: `read_file()`, `write_file()`, `write_json_file()`, `read_json_file()`, `create_directory_if_not_exists()`, todas em `src/tools/file_system.py`, com logging integrado.
 
-### 8.4 `parser.py` — De `map_extracted_data_to_steps()` global para módulo dedicado
+### 8.4 `parser.py`, De `map_extracted_data_to_steps()` global para módulo dedicado:
 
-#### No protótipo
+#### No script original:
 
 A função `map_extracted_data_to_steps()` vivia como função global no script, trabalhava com **dicionários brutos** e manipulava chaves manualmente:
 
 ```python
-# genIAE2ETest.py (protótipo)
+# genIAE2ETest.py (script original)
 def map_extracted_data_to_steps(module):
     extracted_items = module.get("extracted_data", [])
     matched_indices = set()
@@ -585,7 +584,7 @@ def map_extracted_data_to_steps(module):
     ...
 ```
 
-#### Na nova arquitetura
+#### Na nova arquitetura:
 
 A mesma lógica agora trabalha com **objetos Pydantic tipados**:
 
@@ -604,15 +603,15 @@ def map_extracted_data_to_steps(
 
 Além disso, a função `strip_markdown_code_fences()` foi adicionada para limpar a saída do LLM na geração de scripts Robot Framework.
 
-### 8.5 `load_prompt.py` — Carregador de templates Jinja2
+### 8.5 `load_prompt.py`, Carregador de templates Jinja2:
 
 **Completamente novo.** Usa o Jinja2 `Environment` configurado com o diretório de prompts para renderizar templates de forma segura e declarativa.
 
 ---
 
-## 9. Utilitários Compartilhados: `src/utils/`
+## 9. Utilitários Compartilhados: `src/utils/`:
 
-### 9.1 `enums.py` — Enumerações tipadas
+### 9.1 `enums.py`, Enumerações tipadas:
 
 **Completamente novo.** Define dois enums que antes eram representados implicitamente pela posição no loop:
 
@@ -636,14 +635,14 @@ class GenIAStateStatus(StrEnum):
     FINISHED = auto()
 ```
 
-No protótipo, não havia conceito de "status" — o fluxo era determinado pela posição linear no código.
+No script original, não havia conceito de "status", o fluxo era determinado pela posição linear no código.
 
-### 9.2 `logger.py` — Sistema de logging
+### 9.2 `logger.py`, Sistema de logging:
 
-**Completamente novo.** O protótipo usava apenas `print()`:
+**Completamente novo.** O script original usava apenas `print()`:
 
 ```python
-# genIAE2ETest.py (protótipo)
+# genIAE2ETest.py (script original)
 print("Pag ", n+1, ". Identifying relevant elements...")
 print("Usages llm1:............")
 print("Generating Robot Framework script...")
@@ -657,7 +656,7 @@ Na nova arquitetura, há um sistema de logging hierárquico com:
 
 ---
 
-## 10. O Coração da Nova Arquitetura: O Grafo LangGraph (`src/graph/`)
+## 10. O Coração da Nova Arquitetura: O Grafo LangGraph (`src/graph/`):
 
 A maior transformação na reestruturação é a introdução do **LangGraph** como framework de orquestração. O que antes era um fluxo sequencial imperativo dentro de um `for` loop agora é um **grafo de estados compilado**, com nós, arestas condicionais e estado compartilhado.
 
@@ -667,54 +666,54 @@ O pacote `src/graph/` se organiza em quatro subdiretórios com responsabilidades
 
 | Subdiretório | Responsabilidade |
 |-------------|------------------|
-| `agents/` | **O que fazer** — Funções que executam chamadas à LLM ou ao crawler |
-| `nodes/` | **Quando fazer** — Funções de nó que manipulam o estado e delegam aos agentes |
-| `edges/` | **Para onde ir** — Funções de roteamento que decidem o próximo nó |
+| `agents/` | **O que fazer**, Funções que executam chamadas à LLM ou ao crawler |
+| `nodes/` | **Quando fazer**, Funções de nó que manipulam o estado e delegam aos agentes |
+| `edges/` | **Para onde ir**, Funções de roteamento que decidem o próximo nó |
 | *(raiz)* | Orquestrador, estado e mapas de roteamento |
 
 </div>
 
 ---
 
-## 11. Estado Compartilhado: `GenIAState`
+## 11. Estado Compartilhado: `GenIAState`:
 
-### No protótipo
+### No script original:
 
 O "estado" era um amontoado de variáveis locais dentro do `main()`:
 
 ```python
-# genIAE2ETest.py (protótipo)
-test_case = file.read()                          # texto bruto
-refinedTestCase = completion.choices[0].message.parsed.model_dump_json(indent=2)
-test_case_example = json.loads(refinedTestCase)   # dict do caso estruturado
-test_case_json1 = json.loads(refinedTestCase)     # cópia para extração
-test_case_json2 = json.loads(refinedTestCase)     # cópia para refinamento
+# genIAE2ETest.py (script original)
+test_case = file.read()                                                           # texto bruto
+refinedTestCase = completion.choices[0].message.parsed.model_dump_json(indent=2)  # JSON do caso reestruturado
+test_case_example = json.loads(refinedTestCase)                                   # dict do caso estruturado
+test_case_json1 = json.loads(refinedTestCase)                                     # cópia para extração
+test_case_json2 = json.loads(refinedTestCase)                                     # cópia para refinamento
 ```
 
-### Na nova arquitetura → `src/graph/state.py`
+### Na nova arquitetura → `src/graph/state.py`:
 
 O `GenIAState` é um **TypedDict** que define explicitamente todos os dados compartilhados entre os nós do grafo:
 
 ```python
 class GenIAState(TypedDict):
-    messages: Annotated[List[BaseMessage], add_messages]  # Mensagens entre agentes
-    execution_status: GenIAStateStatus          # Fase atual do workflow
-    attempt_number: int                         # Número da tentativa
-    test_case: str                              # Texto bruto do caso de teste
-    test_case_name: str                         # Nome identificador
-    output_directory: str                       # Pasta de saída
-    current_module_index: int                   # Índice do módulo sendo processado
-    refined_test_case: Optional[TestCaseModel]  # Após Level 1
-    extracted_test_case: Optional[ExtractedTestCaseModel]       # Após Level 2 Pass 1
+    messages: Annotated[List[BaseMessage], add_messages]          # Mensagens entre agentes
+    execution_status: GenIAStateStatus                            # Fase atual do workflow
+    attempt_number: int                                           # Número da tentativa
+    test_case: str                                                # Texto bruto do caso de teste
+    test_case_name: str                                           # Nome identificador
+    output_directory: str                                         # Pasta de saída
+    current_module_index: int                                     # Índice do módulo sendo processado
+    refined_test_case: Optional[TestCaseModel]                    # Após Level 1
+    extracted_test_case: Optional[ExtractedTestCaseModel]         # Após Level 2 Pass 1
     refined_extracted_test_case: Optional[ExtractedTestCaseModel] # Após Level 2 Pass 2
-    script_robot: Optional[str]                 # Script gerado (Level 3)
+    script_robot: Optional[str]                                   # Script gerado (Level 3)
 ```
 
-**Mapeamento do protótipo para o estado:**
+**Mapeamento do script original para o estado:**
 
 <div align="center">
 
-| Protótipo (variável) | Estado (`GenIAState`) | Descrição |
+| Script Original (variável) | Estado (`GenIAState`) | Descrição |
 |-----------------------|----------------------|-----------|
 | `test_case = file.read()` | `state["test_case"]` | Texto bruto de entrada |
 | `arquivo.stem` | `state["test_case_name"]` | Nome do caso de teste |
@@ -730,15 +729,15 @@ class GenIAState(TypedDict):
 
 ---
 
-## 12. Agentes (Agents): `src/graph/agents/`
+## 12. Agentes (Agents): `src/graph/agents/`:
 
 Os "agentes" são as funções que **efetivamente fazem as chamadas** à LLM ou ao crawler. Eles encapsulam a interação com serviços externos e retornam dados tipados.
 
-### Mapeamento: Protótipo → Agentes
+### Mapeamento: Script Original → Agentes:
 
 <div align="center">
 
-| Trecho do Protótipo | Agente | Arquivo |
+| Trecho do Script Original | Agente | Arquivo |
 |----------------------|--------|---------|
 | `client.beta.chat.completions.parse(model="gpt-4o-mini", messages=[...], response_format=TestCaseModel)` | `generate_test_case_refactor()` | `test_refactor.py` |
 | `crawler.arun_many(urls=[...], config=crawl_config_1, dispatcher=...)` (1ª passada) | `extract_elements_from_page()` | `explorer.py` |
@@ -748,7 +747,7 @@ Os "agentes" são as funções que **efetivamente fazem as chamadas** à LLM ou 
 </div>
 
 **Melhorias aplicadas a todos os agentes:**
-- **`@retry` com backoff exponencial** (via `tenacity`): o protótipo não tinha nenhum mecanismo de retry.
+- **`@retry` com backoff exponencial** (via `tenacity`): o script original não tinha nenhum mecanismo de retry.
 - **Tipagem completa** de parâmetros e retornos.
 - **Docstrings descritivas**.
 - **Logging estruturado**.
@@ -756,7 +755,7 @@ Os "agentes" são as funções que **efetivamente fazem as chamadas** à LLM ou 
 
 ---
 
-## 13. Nós (Nodes): `src/graph/nodes/`
+## 13. Nós (Nodes): `src/graph/nodes/`:
 
 Os **nós** são as funções que o LangGraph chama em cada fase do grafo. Cada nó:
 1. Lê dados do **estado** (`GenIAState`).
@@ -765,13 +764,13 @@ Os **nós** são as funções que o LangGraph chama em cada fase do grafo. Cada 
 4. **Atualiza o estado** com os resultados.
 5. **Emite uma mensagem** (`AIMessage`) para o histórico.
 
-### Mapeamento: Protótipo → Nós
+### Mapeamento: Script Original → Nós:
 
-#### `restructuring_node` (Level 1)
+#### `restructuring_node` (Level 1):
 
-Corresponde ao trecho do protótipo:
+Corresponde ao trecho do script original:
 ```python
-# genIAE2ETest.py (protótipo)
+# genIAE2ETest.py (script original)
 completion = client.beta.chat.completions.parse(
     model="gpt-4o-mini",
     messages=[{"role": "system", "content": f"""... prompt de reestruturação ..."""}],
@@ -785,11 +784,11 @@ Na nova arquitetura, é o nó `restructuring_node` que:
 - Chama `generate_test_case_refactor(client, prompt)`.
 - Salva o resultado em `state["refined_test_case"]` como um `TestCaseModel` (objeto Pydantic, não string JSON).
 
-#### `extraction_node` (Level 2 — Pass 1)
+#### `extraction_node` (Level 2, Pass 1):
 
-Corresponde ao trecho do protótipo:
+Corresponde ao trecho do script original:
 ```python
-# genIAE2ETest.py (protótipo)
+# genIAE2ETest.py (script original)
 llm_strategy_1 = LLMExtractionStrategy(...)
 crawl_config_1 = CrawlerRunConfig(...)
 result_1 = await crawler.arun_many(urls=[test_case_json1["modules"][n]["url"]], ...)
@@ -806,11 +805,11 @@ Na nova arquitetura:
 - Usa `map_extracted_data_to_steps()` com objetos Pydantic tipados.
 - Atualiza `state["extracted_test_case"]`.
 
-#### `refinement_node` (Level 2 — Pass 2)
+#### `refinement_node` (Level 2, Pass 2):
 
-Corresponde ao trecho do protótipo:
+Corresponde ao trecho do script original:
 ```python
-# genIAE2ETest.py (protótipo)
+# genIAE2ETest.py (script original)
 llm_strategy_2 = LLMExtractionStrategy(...)
 crawl_config_2 = CrawlerRunConfig(...)
 result_2 = await crawler.arun_many(urls=[test_case_json1["modules"][n]["url"]], ...)
@@ -826,11 +825,11 @@ Na nova arquitetura:
 - Usa `map_extracted_data_to_steps()` para mapear elementos aos passos.
 - **Incrementa `current_module_index`** e muda o status para `EXPLORING` (mais módulos) ou `CODING` (todos processados).
 
-#### `generation_node` (Level 3)
+#### `generation_node` (Level 3):
 
-Corresponde ao trecho do protótipo:
+Corresponde ao trecho do script original:
 ```python
-# genIAE2ETest.py (protótipo)
+# genIAE2ETest.py (script original)
 robot_test = client.chat.completions.create(
     model="gpt-4o-mini",
     messages=[
@@ -848,21 +847,21 @@ Na nova arquitetura:
 
 ---
 
-## 14. Arestas Condicionais (Edges): `src/graph/edges/`
+## 14. Arestas Condicionais (Edges): `src/graph/edges/`:
 
-### No protótipo
+### No script original:
 
 O fluxo de controle era determinado pela **estrutura dos loops**:
 
 ```python
-# genIAE2ETest.py (protótipo) — fluxo implícito
+# genIAE2ETest.py (script original), fluxo implícito
 for n in range(len(test_case_example["modules"])):
     # 1. Extração (llm_strategy_1 + crawl4ai)
     # 2. Refinamento (llm_strategy_2 + crawl4ai)
 # 3. Geração (client.chat.completions.create)
 ```
 
-### Na nova arquitetura
+### Na nova arquitetura:
 
 As transições entre nós são gerenciadas por **funções de roteamento** que inspecionam o `execution_status` do estado:
 
@@ -876,13 +875,13 @@ As transições entre nós são gerenciadas por **funções de roteamento** que 
 
 </div>
 
-A função `route_after_refinement` é a **mais importante**, pois implementa a lógica que antes era o `for n in range(...)` do protótipo. Ela verifica:
+A função `route_after_refinement` é a **mais importante**, pois implementa a lógica que antes era o `for n in range(...)` do script original. Ela verifica:
 - Se `execution_status == EXPLORING` → ainda há módulos pendentes → volta para extração.
 - Se `execution_status == CODING` → todos os módulos processados → vai para geração.
 
 ---
 
-## 15. Mapas de Roteamento: `routing_maps.py`
+## 15. Mapas de Roteamento: `routing_maps.py`:
 
 Define os **mapas estáticos** consumidos pelo LangGraph para resolver as arestas condicionais:
 
@@ -895,91 +894,67 @@ extraction_routes_map = {
 }
 refinement_routes_map = {
     GenIANodeName.EXPLORING_TASK.value: GenIANodeName.EXPLORING_TASK.value,  # loop
-    GenIANodeName.CODING_TASK.value: GenIANodeName.CODING_TASK.value,       # finalizar
+    GenIANodeName.CODING_TASK.value: GenIANodeName.CODING_TASK.value,        # finalizar
 }
 ```
 
 Estes mapas são passados como terceiro argumento em `workflow.add_conditional_edges()` no orquestrador.
 
+> [!NOTE]
+> **Por que esses mapas não são redundantes?**
+>
+> À primeira vista, mapear `"EXPLORING_TASK" → "EXPLORING_TASK"` parece desnecessário, mas esse dicionário traz três vantagens concretas:
+>
+> 1. **Validação antecipada (fail-fast):** O LangGraph usa o mapa para validar as rotas em tempo de compilação. Se a função de roteamento retornar uma string com erro de digitação (ex: `"EXPLORING_TASKS"` com "S" extra), o framework acusa o erro imediatamente, antes de gastar tokens da OpenAI. Sem o mapa, o erro só apareceria em tempo de execução.
+>
+> 2. **Desacoplamento de lógica:** A função de roteamento não precisa conhecer os nomes físicos dos nós. Idealmente, ela retorna uma *intenção* e o mapa traduz para o destino. O padrão correto de chaves semânticas seria algo como `"loop_required"` → `EXPLORING_TASK`, `"refinement_complete"` → `CODING_TASK`. Dessa forma, trocar o destino de uma rota exige alterar apenas uma linha no mapa, sem tocar na lógica da função.
+>
+> 3. **Documentação viva:** Ao abrir `routing_maps.py`, qualquer desenvolvedor enxerga imediatamente todas as transições possíveis do sistema, sem precisar ler o código interno de cada função de roteamento.
+
 ---
 
-## 16. Orquestrador: `orchestrator.py`
+## 16. Orquestrador: `orchestrator.py`:
 
-### No protótipo
+### No script original:
 
-Não existia um orquestrador — tudo vivia dentro do `main()`.
+Não existia um orquestrador, tudo vivia dentro do `main()`.
 
-### Na nova arquitetura → `GenIAStateOrchestrator`
+### Na nova arquitetura → `GenIAStateOrchestrator`:
 
 A classe `GenIAStateOrchestrator` é o ponto central que:
 
-1. **Compila o grafo** (`_build_graph()`) — registra nós, arestas condicionais e arestas estáticas.
-2. **Gera visualização** (`visualize_workflow()`) — salva um PNG do grafo via Mermaid.
-3. **Executa o workflow** (`run()`) — inicializa o estado, invoca o grafo compilado e salva os artefatos de saída.
-4. **Salva artefatos** (`_save_outputs()`) — persiste `ExtractedData.json`, `RefinedExtractedData.json` e `E2ETest.robot`.
+1. **Compila o grafo** (`_build_graph()`), registra nós, arestas condicionais e arestas estáticas.
+2. **Gera visualização** (`visualize_workflow()`), salva um PNG do grafo via Mermaid.
+3. **Executa o workflow** (`run()`), inicializa o estado, invoca o grafo compilado e salva os artefatos de saída.
+4. **Salva artefatos** (`_save_outputs()`), persiste `ExtractedData.json`, `RefinedExtractedData.json` e `E2ETest.robot`.
 
-**Correspondência com o protótipo:**
+**Correspondência com o script original:**
 
 <div align="center">
 
-| Protótipo | Orquestrador |
+| Script Original | Orquestrador |
 |-----------|-------------|
-| `create_directory_if_not_exists(newFolder)` | `__init__()` — cria diretório de saída |
-| Todo o loop de iteração | `run()` — inicializa estado e invoca `self.graph.ainvoke(initial_state)` |
-| `with open(ExtractedData, "w") as f: json.dump(...)` | `_save_outputs()` — salva ExtractedData.json |
-| `with open(RefinedExtractedData, "w") as f: json.dump(...)` | `_save_outputs()` — salva RefinedExtractedData.json |
-| `with open(E2ETest.robot, "w") as f: f.write(...)` | `_save_outputs()` — salva E2ETest.robot |
-| *(não existia)* | `visualize_workflow()` — gera PNG do grafo |
+| `create_directory_if_not_exists(newFolder)` | `__init__()`, cria diretório de saída |
+| Todo o loop de iteração | `run()`, inicializa estado e invoca `self.graph.ainvoke(initial_state)` |
+| `with open(ExtractedData, "w") as f: json.dump(...)` | `_save_outputs()`, salva ExtractedData.json |
+| `with open(RefinedExtractedData, "w") as f: json.dump(...)` | `_save_outputs()`, salva RefinedExtractedData.json |
+| `with open(E2ETest.robot, "w") as f: f.write(...)` | `_save_outputs()`, salva E2ETest.robot |
+| *(não existia)* | `visualize_workflow()`, gera PNG do grafo |
 
 </div>
 
 ---
 
-## 17. Mapeamento Completo: Protótipo → Nova Arquitetura
-
-A tabela abaixo resume, linha por linha, onde cada parte do protótipo foi para na nova arquitetura:
+## 17. O que Mudou na Nova Arquitetura:
 
 <div align="center">
 
-| Linhas do Protótipo | O que fazia | Novo local | Arquivo específico |
-|---------------------|-------------|------------|-------------------|
-| 1–12 | Imports | Distribuídos nos arquivos que os utilizam | Cada módulo importa apenas o que precisa |
-| 14–15 | `create_directory_if_not_exists()` | `src/tools/file_system.py` | `create_directory_if_not_exists()` |
-| 17–38 | `map_extracted_data_to_steps()` | `src/tools/parser.py` | `map_extracted_data_to_steps()` (agora tipada) |
-| 40–49 | `load_dotenv()` + variáveis de ambiente | `src/env/index.py` | `EnvironmentVariables` dataclass |
-| 51–72 | Classe `ExtractedElement` | `src/models/extracted_element.py` | `ExtractedElement` |
-| 74–83 | Classe `ExecutionStepModel` | `src/models/execution_step.py` | `ExecutionStepModel` |
-| 85–100 | Classe `ModuleModel` | `src/models/module.py` | `ModuleModel` |
-| 102–112 | Classe `TestCaseModel` | `src/models/test_case.py` | `TestCaseModel` |
-| 114–117 | Criação de diretórios + início do loop | `main.py` + `orchestrator.py` | `process_test_cases()` + `GenIAStateOrchestrator.run()` |
-| 118–120 | Leitura do arquivo `.feature` | `main.py` | `read_file(test_file)` |
-| 122 | `openai.OpenAI(api_key=...)` | `src/tools/gen_ia_client.py` | `GenIAClientProvider.get_client()` |
-| 124–179 | Chamada LLM de reestruturação + prompt | `src/graph/nodes/restructuring.py` + `src/graph/agents/test_refactor.py` + `src/prompts/level1_restructuring.j2` | Nó → Agente → Prompt |
-| 181–183 | Salvar `Refined*.json` | `src/graph/orchestrator.py` | `_save_outputs()` |
-| 185–199 | Setup de variáveis do loop de tentativas | `src/graph/orchestrator.py` | `run()` — criação de diretórios e estado inicial |
-| 200–268 | LLM Extraction Strategy 1 + crawl + parsing | `src/graph/nodes/extraction.py` + `src/graph/agents/explorer.py` + `src/tools/browser.py` + `src/prompts/level2_extraction.j2` | Nó → Agente → BrowserTool → Prompt |
-| 270 | `map_extracted_data_to_steps` (1ª passada) | `src/graph/nodes/extraction.py` | Chamada a `map_extracted_data_to_steps()` |
-| 272–340 | LLM Extraction Strategy 2 + crawl + parsing | `src/graph/nodes/refinement.py` + `src/graph/agents/refiner.py` + `src/tools/browser.py` + `src/prompts/level2_refinement.j2` | Nó → Agente → BrowserTool → Prompt |
-| 342 | `map_extracted_data_to_steps` (2ª passada) | `src/graph/nodes/refinement.py` | Chamada a `map_extracted_data_to_steps()` |
-| 344–349 | Salvar `ExtractedData.json` e `RefinedExtractedData.json` | `src/graph/orchestrator.py` | `_save_outputs()` |
-| 351–372 | Geração do script Robot Framework | `src/graph/nodes/generation.py` + `src/graph/agents/coder.py` + `src/prompts/level3_generation.j2` | Nó → Agente → Prompt |
-| 374–375 | Salvar `E2ETest.robot` | `src/graph/orchestrator.py` | `_save_outputs()` |
-| 378–379 | `asyncio.run(main())` | `main.py` | `asyncio.run(main())` |
-
-</div>
-
----
-
-## 18. Benefícios da Nova Arquitetura
-
-<div align="center">
-
-| Aspecto | Protótipo | Nova Arquitetura |
+| Aspecto | Script Original | Nova Arquitetura |
 |---------|-----------|-----------------|
 | **Manutenibilidade** | Alterar um prompt exige mexer em lógica Python | Prompts são arquivos `.j2` independentes |
 | **Testabilidade** | Impossível testar funções isoladamente | Cada agente, nó e ferramenta pode ser testado unitariamente |
 | **Escalabilidade** | Adicionar nova fase = reescrever o loop | Adicionar nova fase = criar nó + agente + aresta |
-| **Resiliência** | Sem retry — qualquer falha aborta tudo | Retry com backoff exponencial em todo agente |
+| **Resiliência** | Sem retry, qualquer falha aborta tudo | Retry com backoff exponencial em todo agente |
 | **Observabilidade** | `print()` | Logger hierárquico com arquivo + console |
 | **Tipagem** | Dicionários genéricos (`dict`) | Pydantic models + TypedDict completo |
 | **Rastreabilidade** | Sem histórico de execução | `messages` no estado + status explícito por fase |
@@ -988,7 +963,3 @@ A tabela abaixo resume, linha por linha, onde cada parte do protótipo foi para 
 | **Configuração** | Variáveis soltas | Dataclass centralizada com validação |
 
 </div>
-
----
-
-> **Documento gerado para servir como referência de arquitetura do projeto GenIA E2E Test Generator.** Para dúvidas ou atualizações, consulte os arquivos-fonte na pasta `src/`.

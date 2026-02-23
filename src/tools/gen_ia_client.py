@@ -1,5 +1,7 @@
 """Singleton OpenAI client provider."""
 
+from typing import Optional
+
 import openai
 from openai import Client
 
@@ -10,7 +12,7 @@ type GenIAClient = Client
 class GenIAClientProvider:
     """Provides a single shared OpenAI client instance across the application."""
 
-    _client: GenIAClient | None = None
+    _client: Optional[GenIAClient] = None
 
     @classmethod
     def get_client(cls) -> GenIAClient:
