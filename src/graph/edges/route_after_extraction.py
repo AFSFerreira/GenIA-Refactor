@@ -11,8 +11,7 @@ def route_after_extraction(state: GenIAState) -> str:
     """Determine the next node after extraction completes.
 
     Routes to:
-        - `REFINING_TASK`: to refine the extracted elements.
-        - `CODING_TASK`: if all modules have already been processed.
+        - `REFINING_TASK`: always routes to refinement after extraction.
 
     Args:
         state: Current workflow state.
@@ -25,8 +24,6 @@ def route_after_extraction(state: GenIAState) -> str:
 
     if execution_status == GenIAStateStatus.REFINING:
         return GenIANodeName.REFINING_TASK.value
-    if execution_status == GenIAStateStatus.CODING:
-        return GenIANodeName.CODING_TASK.value
 
     logger.warning(f"Unexpected status after extraction: {execution_status}")
-    return GenIANodeName.END.value
+    return GenIANodeName.REFINING_TASK.value

@@ -44,8 +44,8 @@ async def extraction_node(state: GenIAState) -> GenIAState:
     total_modules = len(refined_test_case.modules)
 
     if module_idx >= total_modules:
-        logger.info("All modules extracted, moving to coding phase")
-        state["execution_status"] = GenIAStateStatus.CODING
+        logger.info("All modules already extracted, forwarding to refinement")
+        state["execution_status"] = GenIAStateStatus.REFINING
         return state
 
     # Initialise extracted_test_case on the first module.

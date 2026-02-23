@@ -46,6 +46,11 @@ async def refinement_node(state: GenIAState) -> GenIAState:
     module_idx = state["current_module_index"]
     total_modules = len(refined_test_case.modules)
 
+    if module_idx >= total_modules:
+        logger.info("All modules already refined, moving to coding phase")
+        state["execution_status"] = GenIAStateStatus.CODING
+        return state
+
     refined_extracted_test_case = state.get("refined_extracted_test_case")
     if refined_extracted_test_case is None:
         raise ValueError("refined_extracted_test_case is required for refinement")
