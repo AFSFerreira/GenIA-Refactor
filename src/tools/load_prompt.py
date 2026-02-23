@@ -12,7 +12,7 @@ def load_prompt(template_name: str, **kwargs: object) -> str:
 
     Example:
 
-        load_prompt('agents/langgraph/level1_restructuring.jinja2', test_case='...')
+        load_prompt('level1_restructuring.jinja2', test_case='...')
 
     Args:
         template_name: Relative path to the template inside the prompts directory.

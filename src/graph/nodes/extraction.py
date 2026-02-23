@@ -63,7 +63,7 @@ async def extraction_node(state: GenIAState) -> GenIAState:
     logger.info(f"Processing module {module_idx + 1}/{total_modules}: {current_module_model.url}")
 
     prompt = load_prompt(
-        "agents/langgraph/level2_extraction.j2",
+        "level2_extraction.j2",
         module=json.dumps(current_module_model.model_dump(exclude_none=True, mode="json"), indent=4),
     )
 
