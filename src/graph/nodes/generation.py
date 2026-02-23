@@ -35,7 +35,7 @@ def generation_node(state: GenIAState) -> GenIAState:
         raise ValueError("refined_extracted_test_case is required for code generation")
 
     prompt = load_prompt(
-        "agents/langgraph/level3_generation.jinja2",
+        "agents/langgraph/level3_generation.j2",
         test_case_with_extracted_data=json.dumps(
             refined_extracted_test_case.model_dump(exclude_none=True, mode="json"),
             indent=2,

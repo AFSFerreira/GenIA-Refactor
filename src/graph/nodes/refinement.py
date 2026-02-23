@@ -54,7 +54,7 @@ async def refinement_node(state: GenIAState) -> GenIAState:
     logger.info(f"Refining module {module_idx + 1}/{total_modules}: {current_module_extracted.url}")
 
     prompt = load_prompt(
-        "agents/langgraph/level2_refinement.jinja2",
+        "agents/langgraph/level2_refinement.j2",
         module_with_extracted_data=json.dumps(
             current_module_extracted.model_dump(exclude_none=True, mode="json"),
             indent=2,

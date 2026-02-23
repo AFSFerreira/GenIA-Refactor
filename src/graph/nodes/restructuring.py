@@ -29,7 +29,7 @@ def restructuring_node(state: GenIAState) -> GenIAState:
     state["execution_status"] = GenIAStateStatus.RESTRUCTURING
 
     prompt = load_prompt(
-        "agents/langgraph/level1_restructuring.jinja2",
+        "agents/langgraph/level1_restructuring.j2",
         test_case=state["test_case"],
     )
 
