@@ -30,14 +30,17 @@ async def refine_extracted_elements(
         result = await browser.extract_elements(
             url=url,
             instruction=instruction,
-            schema=ExtractionContainer.model_json_schema(),
+            schema=ExtractionContainer,
             temperature=EnvironmentVariables.ai_agents_temperature
         )
     
     logger.info(f"Refinement completed for: {url}")
     
+    container_obj = result.get("extracted_content")
+    elements_list = container_obj.elements if container_obj else []
+    
     return ExtractionResultModel(
-        extracted_content=result["extracted_content"],
+        extracted_content=elements_list,
         token_usage=result["token_usage"],
         dispatcher_data=result["dispatcher_data"]
     )
