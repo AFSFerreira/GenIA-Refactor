@@ -4,7 +4,7 @@ from tenacity import retry, stop_after_attempt, wait_exponential
 
 from src.env import env_variables
 from src.env.index import EnvironmentVariables
-from src.tools.clients.gen_ia_client import GenIAClient, GenIAClientProvider
+from src.tools.gen_ia_client import GenIAClient
 from src.tools.parser import strip_markdown_code_fences
 from src.utils.logger import get_logger
 

@@ -10,6 +10,7 @@ from .file_system import (
 )
 from .load_prompt import load_prompt
 from .parser import map_extracted_data_to_steps, strip_markdown_code_fences
+from .gen_ia_client import GenIAClientProvider
 
 __all__ = [
     "BrowserManager",
@@ -22,5 +23,6 @@ __all__ = [
     "strip_markdown_code_fences",
     "write_file",
     "write_json_file",
+    "GenIAClientProvider",
 ]
 

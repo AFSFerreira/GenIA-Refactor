@@ -7,7 +7,6 @@ from src.env import env_variables
 
 type GenIAClient = Client
 
-
 class GenIAClientProvider:
     """Provides a single shared OpenAI client instance across the application."""
 

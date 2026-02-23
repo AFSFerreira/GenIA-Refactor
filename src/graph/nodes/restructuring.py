@@ -4,7 +4,7 @@ from langchain_core.messages import AIMessage
 
 from src.graph.agents.test_refactor import generate_test_case_refactor
 from src.graph.state import GenIAState
-from src.tools.clients.gen_ia_client import GenIAClientProvider
+from src.tools.gen_ia_client import GenIAClientProvider
 from src.tools.load_prompt import load_prompt
 from src.utils.enums import GenIAStateStatus
 from src.utils.logger import get_logger
